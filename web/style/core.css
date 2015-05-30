@@ -1,0 +1,178 @@
+/*
+Copyright 2015
+ http://wazza.co.ke
+10:35:00 PM  : May 27, 2015
+*/
+/* 
+    Created on : May 27, 2015, 10:35:00 PM
+    Author     : kelli
+*/
+
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family : Roboto, Arial, Courier;
+    }
+
+    
+    body{
+        margin-left: 200px;
+        margin-right: 200px;
+        background-image: url(../resc/canvas.png);
+        
+/*        border-left: #cccccc solid thin;
+        border-right:  #cccccc solid thin;*/
+        /*padding: 10px;*/
+    }
+  
+    .header{    
+        position:relative;
+        margin-top: 4px;
+        margin-bottom: 3px;
+        padding: 20px 25px 3px 20px;
+        background: #75c800;
+        color: #ffffff;
+        height:60px;
+        border:solid #66cc00 thin;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    
+    #footer{
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background: #333333;
+        padding: 20px 30px;
+        clear: both;
+        width: auto;
+        height: 40px;
+    }
+    
+    #footer span{
+        vertical-align: middle;
+        text-align: center;
+        display: block;
+        color:#ffffff;
+        font-size: small;
+    }
+    
+    #slider-content{
+        width: 70%;
+        float: left;
+        padding: 10px 5px;
+    }
+    
+    #slider-description{
+        width: 28%;
+        float:right;
+        background: #ffffff;
+        height: auto;
+    }
+    
+    #slider-description p{
+        color: #666666;
+        font-size: 0.75em;
+        color: #666666;
+        padding: 7px 20px;
+    }
+    
+    .btn{
+        background: #9966ff;
+        color: #ffffff;
+        border: solid #9966ff thin;
+        border-radius: 3px;
+        padding: 5px 5px;
+        margin: 10px 5px;
+        width:60px; height: 30px;
+        font-weight: 700;
+        float: right;
+    }
+    
+    /** target all elements whose type is submit i.e buttons*/
+    *[type~="submit"]{
+        margin: auto;
+        margin-bottom: 10px;
+    }
+
+    .btn   a{
+        text-decoration: none;
+        color:white;
+    }
+    
+    .btn span{
+        font-weight: 600;
+    }
+    
+    .login_panel{
+    margin-top:60px;
+    border: solid thin darkgrey; 
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right:auto;
+    width: 230px;
+    padding: 5px;
+    margin-bottom: 60px;
+}
+
+.title_bar{
+    border-bottom: solid darkgray thick;
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
+    font-weight:bold;
+    color: #003333;
+    background: darkgray;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.text_box{
+    border: solid  #9966ff;
+    border-width: 2px; 
+    border-radius: 3px; 
+    width: 215px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+    .menu{
+    background: #333333;
+    color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+    /*margin-bottom: 10px;*/
+}
+
+.menu ul{
+    height: auto;
+    padding: 5px 0px;
+}
+
+.menu li{
+    display: inline;
+    padding: 20px;
+}
+
+.menu a{
+    color: #ffffff;
+    text-decoration: none;
+    padding: 6px 6px 6px 6px;
+}
+
+.menu a:hover{
+    color: #666666;
+    background: #ffffff;
+}
+
+
+
+/*.btn{
+    border:solid #00cccc;
+    border-radius: 5px; 
+    background: #00cccc;
+    padding:5px;
+    color: #ffffff;
+    width: 150px;
+    text-align: center;
+    width: 25%;
+    margin-left: 210px;
+}*/

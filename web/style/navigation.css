@@ -1,0 +1,37 @@
+/*
+Copyright 2015
+ http://wazza.co.ke
+2:01:32 PM  : May 28, 2015
+*/
+/* 
+    Created on : May 28, 2015, 2:01:32 PM
+    Author     : kelli
+*/
+.menu{
+    background: #333333;
+    color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 10px;
+}
+
+.menu ul{
+    height: auto;
+    padding: 2px 0px;
+}
+
+.menu li{
+    display: inline;
+    padding: 20px;
+}
+
+.menu a{
+    color: #ffffff;
+    text-decoration: none;
+    padding: 6px 6px 6px 6px;
+}
+
+.menu a:hover{
+    color: #666666;
+    background: #ffffff;
+}
