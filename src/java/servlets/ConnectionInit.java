@@ -27,7 +27,7 @@ public class ConnectionInit extends GenericServlet {
     protected String url,user,password;
     protected  Connection connection;
     /**Overide the init method to create database connection object and load them
-     * to the servletcontex
+     * to the servletcontext
      * @param configt*/
     @Override
     
@@ -44,8 +44,9 @@ public class ConnectionInit extends GenericServlet {
         //push to ServletContext....
         ServletContext context =config.getServletContext();
        
-        Logger.getLogger(ConnectionInit.class.getName()).log(Level.INFO, "Servername="+context.getVirtualServerName());
         context.setAttribute("connector",connection);
+        Logger.getLogger(ConnectionInit.class.getName()).log(Level.INFO, "Database connection "
+                + "attribute set= "+context.getAttribute("connector"));
         
         
     }

@@ -69,6 +69,7 @@ public class Authenticate extends HttpServlet {
         }
         if(valid){
             //redirect to catalog page
+             //TODO should call the ItemsCatalog servlet
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog.jsp");
         dispatcher.forward(request, response);
         }else{

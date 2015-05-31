@@ -21,6 +21,14 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>ItemsCatalog</servlet-name>
+        <servlet-class>servlets.ItemsCatalog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FileServer</servlet-name>
+        <servlet-class>servlets.FileServer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
         <url-pattern>/auth</url-pattern>
@@ -28,6 +36,14 @@
     <servlet-mapping>
         <servlet-name>ConnectionInit</servlet-name>
         <url-pattern>/db_init</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemsCatalog</servlet-name>
+        <url-pattern>/catalog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileServer</servlet-name>
+        <url-pattern>/fileserver</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

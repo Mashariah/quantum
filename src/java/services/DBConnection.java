@@ -48,10 +48,10 @@ public class DBConnection {
             conn = DriverManager.getConnection(url, user, pass);
             if(conn!=null){
                 connected = true;
-                Logger.getLogger(DBConnection.class.getName()).log(Level.INFO,  "success");
+                Logger.getLogger(DBConnection.class.getName()).log(Level.INFO,  "connection to database created!");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex.getStackTrace());
         }
         return conn;
     }
