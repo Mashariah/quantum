@@ -49,11 +49,13 @@ public class ItemsCatalog extends HttpServlet {
         if(dbConn==null){
             Logger.getLogger(ItemsCatalog.class.getName()).log(Level.SEVERE, "The connection object is null");
         }
-        String sqlStatement = "select * from vehicles,vehicle_images where vehicles.vehicle_id = vehicle_images.vehicle_id;";
+        String sqlStatement = "select vehicles.vehicle_id,registration_num,make,model,color,_year,sat_nav,"
+                + "adv_ent,chauffered,features, group_concat(vehicle_images.image_file_name separator ',') as img_files "
+                + " from vehicles,vehicle_images where vehicles.vehicle_id = vehicle_images.vehicle_id;";
 
         //fetch results...and create list
         vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement);
-        request.setAttribute("vehicles", vehiclesList);
+        request.getSession().setAttribute("vehicles", vehiclesList); //make object available accross this user session
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog.jsp");
        dispatcher.forward(request, response);
     }

@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="style/core.css"/>
     </head>
     <body>
-        <div class="header"><h1>allexi.com</h1></div>
+        <div class="header"><h1></h1></div>
         <%@include file="templates/navigation.html" %>
         <div class="filter-panel">
             <h3>Search Filter</h3>
@@ -39,8 +39,10 @@
             <!--call servlet to retrieve image files-->
             <c:forEach items ="${vehicles}"  var="current">
                 <div class="catalog-item">
-                        <img src="fileserver?param1=${current.imageFile}"/>
-                        <div class="item-info-box">${current.make}<br>${current.model}<br>${current.year}</div>
+                    <a href="details.jsp?vehicle_id=${current.vehicleId}">
+                        <img src="fileserver?param1=${current.imageFiles[0]}"/>
+                        <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}</div>
+                    </a>
                 </div>
             </c:forEach>
 <!--            <div class="catalog-item"><img src="resc/images/audi_A3.png"/></div>

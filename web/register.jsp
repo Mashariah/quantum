@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="style/core.css"/>
     </head>
     <body>
-        <div class="header"><h1>allexi.com</h1></div>
+        <div class="header"><h1></h1></div>
         <%@include file="templates/navigation.html" %>
             <div class="login_panel">
             <form action="register" method="POST">

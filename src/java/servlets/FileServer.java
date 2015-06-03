@@ -37,6 +37,7 @@ public class FileServer extends HttpServlet {
                 response.setContentType("image/png ");
                 OutputStream os  = response.getOutputStream();
             String imageFile = request.getParameter("param1");
+            Logger.getLogger(FileServer.class.getName()).log(Level.INFO,"Image file is: "+imageFile);
             sendFile(imageFile,os);
     }
     

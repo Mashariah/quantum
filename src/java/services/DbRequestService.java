@@ -27,6 +27,7 @@ public class DbRequestService {
     private static ResultSet results = null;
     private static Statement statement;
     private static ArrayList<Vehicle> vehicleList;
+    private static String location = "/var/alexi_images/";
 
     public static ArrayList<Vehicle> processQueryRequest(Connection connection, String sql) {
             try {
@@ -43,9 +44,19 @@ public class DbRequestService {
                             int satNav = results.getInt("sat_nav");
                             int advEnt = results.getInt("adv_ent");
                             int chauffered = results.getInt("chauffered");
-                            String image = results.getString("image_file_name");
-                            String imageFile = "/var/alexi_images/" + image;
-                            Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year, satNav, advEnt, chauffered, imageFile);
+                            String images = results.getString("img_files");
+                            
+                            //create collection of retrieved images for vehicle
+                            List<String> files = Vehicle.splitFileNames(images);
+                            List<String> fileSplit = new ArrayList<>();
+                            for (String current : files) {
+                                current = location+current;
+                                fileSplit.add(current);
+                                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "current  image file: "+current);
+                            }
+                            String features = results.getString("features");
+                            Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year, 
+                                    satNav, advEnt, chauffered, fileSplit,features);
                             vehicleList.add(current);
                         }
                     } 

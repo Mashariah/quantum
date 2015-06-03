@@ -17,7 +17,7 @@
         <link href="style/jquery.bxslider.css" rel="stylesheet"/>
     </head>
     <body>
-        <div class="header"><h1>allexi.com</h1></div>
+        <div class="header"><h1></h1></div>
         <%@include file="templates/navigation.html" %>
         <div id="slider-content">
             <ul class="bxslider">

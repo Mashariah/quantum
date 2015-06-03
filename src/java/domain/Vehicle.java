@@ -6,8 +6,9 @@
 
 package domain;
 
-import java.io.File;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,11 +26,13 @@ public class Vehicle {
     private boolean satNav;
     private boolean advEnt;
     private boolean chauffered;
+    private String features;
     
     //list of picture files for this vehicle 
-    private String imageFile;
+    private List<String> imageFiles;
 
-    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,int satNav,int advEnt,int chauffered,String images){
+    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,int satNav,int advEnt,
+            int chauffered,List<String> images,String features){
         this.vehicleId = vId;
         this.registrationNumber = regNum;
         this.make = make;
@@ -39,7 +42,8 @@ public class Vehicle {
         this.satNav = convertIntToBoolean(satNav);
         this.advEnt = convertIntToBoolean(advEnt);
         this.chauffered = convertIntToBoolean(chauffered);
-        this.imageFile = images;
+        this.imageFiles = images;
+        this.features = features;
     }
  
 
@@ -172,15 +176,15 @@ public class Vehicle {
     /**
      * @return the imageFile
      */
-    public String getImageFile() {
-        return imageFile;
+    public List<String> getImageFiles() {
+        return imageFiles;
     }
 
     /**
      * @param imageFiles the imageFile to set
      */
-    public void setImageFile(String imageFiles) {
-        this.imageFile = imageFiles;
+    public void setImageFiles(List<String> imageFiles) {
+        this.imageFiles = imageFiles;
     }
     
     /** utility methods**/
@@ -191,5 +195,39 @@ public class Vehicle {
         }
         return state;
     }
+
+    /**
+     * @return the features
+     */
+    public String getFeatures() {
+        return features;
+    }
+
+    /**
+     * @param features the features to set
+     */
+    public void setFeatures(String features) {
+        this.features = features;
+    }
+    
+    /**
+     * Utility method to split the different files names into individual list items
+     * @param allFiles
+     * @return 
+     */
+    public  static List <String> splitFileNames (String allFiles) {
+        List <String> filesNames;
+        //split to items at each ','
+        String [] items = allFiles.split(",",5);
+        filesNames = Arrays.asList(items);
+        return filesNames;
+    }
+    
+//    public static void main(String[] args) {
+//        List <String> l = Vehicle.splitFileNames("Allex,Joy,Kim,Baseey,Hilade");
+//        for (String s : l) {
+//            System.out.println("Current: "+s+"\n");
+//        }
+//    }
 
 }
