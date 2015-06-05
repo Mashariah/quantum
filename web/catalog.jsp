@@ -39,8 +39,9 @@
             <!--call servlet to retrieve image files-->
             <c:forEach items ="${vehicles}"  var="current">
                 <div class="catalog-item">
-                    <a href="details.jsp?vehicle_id=${current.vehicleId}">
-                        <img src="fileserver?param1=${current.imageFiles[0]}"/>
+                    <!--call servlet to get the vehicle details-->
+                    <a href="details?selected_vehicle=${current.vehicleId}">
+                        <img src="fileserver?param1=${current.teaserImg}"/>
                         <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}</div>
                     </a>
                 </div>

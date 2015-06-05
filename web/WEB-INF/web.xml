@@ -29,6 +29,10 @@
         <servlet-name>FileServer</servlet-name>
         <servlet-class>servlets.FileServer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DetailsProvider</servlet-name>
+        <servlet-class>servlets.DetailsProvider</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
         <url-pattern>/auth</url-pattern>
@@ -44,6 +48,10 @@
     <servlet-mapping>
         <servlet-name>FileServer</servlet-name>
         <url-pattern>/fileserver</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailsProvider</servlet-name>
+        <url-pattern>/details</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

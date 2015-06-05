@@ -5,7 +5,9 @@
  */
 package services;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.descriptionType;
 import domain.Vehicle;
+import domain.VehicleDescription;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -27,7 +29,6 @@ public class DbRequestService {
     private static ResultSet results = null;
     private static Statement statement;
     private static ArrayList<Vehicle> vehicleList;
-    private static String location = "/var/alexi_images/";
 
     public static ArrayList<Vehicle> processQueryRequest(Connection connection, String sql) {
             try {
@@ -41,22 +42,15 @@ public class DbRequestService {
                             String model = results.getString("model");
                             String color = results.getString("color");
                             Date year = results.getDate("_year");
-                            int satNav = results.getInt("sat_nav");
-                            int advEnt = results.getInt("adv_ent");
-                            int chauffered = results.getInt("chauffered");
-                            String images = results.getString("img_files");
-                            
-                            //create collection of retrieved images for vehicle
-                            List<String> files = Vehicle.splitFileNames(images);
-                            List<String> fileSplit = new ArrayList<>();
-                            for (String current : files) {
-                                current = location+current;
-                                fileSplit.add(current);
-                                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "current  image file: "+current);
-                            }
                             String features = results.getString("features");
+                            String teaserImgFile = results.getString("teaser_img");
+                            String detailImgFile = results.getString("detail_img");
+                            String thumbnail1File = results.getString("thumbnail1_img");
+                            String thumbnail2File = results.getString("thumbnail2_img");
+                            String thumbnail3File = results.getString("thumbnail3_img");
+                            
                             Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year, 
-                                    satNav, advEnt, chauffered, fileSplit,features);
+                                    features,teaserImgFile,detailImgFile,thumbnail1File,thumbnail2File,thumbnail3File);
                             vehicleList.add(current);
                         }
                     } 
@@ -64,5 +58,39 @@ public class DbRequestService {
                 Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.SEVERE, sqle.getLocalizedMessage());
             }
         return vehicleList;
+    }
+    
+    /**
+     * Get details of the selected  vehicle 
+     * @param connection
+     * @param sql
+     * @return 
+     */
+    public static VehicleDescription getVehicleDetails(Connection connection, String sql) {
+                VehicleDescription description = null;
+            try {
+                statement = connection.createStatement();
+                results = statement.executeQuery(sql);
+                        while (results.next()) {
+                            int vehicleId = results.getInt("vehicle_id");
+                            String fConsumption = results.getString("fuel_consumption");
+                            String fCapacity = results.getString("fuel_capacity");
+                            String transmission = results.getString("transmission");
+                            int seating = results.getInt("seating_cap");
+                            String convinience = results.getString("convinience");
+                            String sasfety = results.getString("safety_security");
+                            String entertainment = results.getString("entertainment");
+                            String telematics = results.getString("telematics");
+                            String tireWheels = results.getString("tire_wheels");
+                            
+                            description = new VehicleDescription(vehicleId, fConsumption, fCapacity, transmission, seating, 
+                                    convinience, sasfety, entertainment, telematics, tireWheels);
+                Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO, description.getEntertainment());
+                        }
+                    } 
+             catch (SQLException sqle) {
+                Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.SEVERE, sqle.getLocalizedMessage());
+            }
+        return description;
     }
 }

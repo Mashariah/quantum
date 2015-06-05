@@ -37,8 +37,9 @@ public class FileServer extends HttpServlet {
                 response.setContentType("image/png ");
                 OutputStream os  = response.getOutputStream();
             String imageFile = request.getParameter("param1");
-            Logger.getLogger(FileServer.class.getName()).log(Level.INFO,"Image file is: "+imageFile);
-            sendFile(imageFile,os);
+            Logger.getLogger(FileServer.class.getName()).log(Level.INFO,"Image file is: "+imageFile);   
+//            imageFile = appendImageDir(imageFile); //add base dir to filename
+            sendFile("/var/alexi_images/"+imageFile,os);
     }
     
     public static void sendFile(String name,OutputStream os){
@@ -46,17 +47,17 @@ public class FileServer extends HttpServlet {
         FileInputStream fis = null;
         try{
             fis = new FileInputStream(name);
-            Logger.getLogger(FileServer.class.getCanonicalName()).log(Level.INFO, "good so far....");
+            Logger.getLogger(FileServer.class.getCanonicalName()).log(Level.INFO, "mambo sawa... so far....");
             byte[] buffer = new byte[4*1024]; //4Kb buffer
             int bytesRead;
             while ((bytesRead = fis.read(buffer))!=-1){
                 os.write(buffer,0, bytesRead);
             }
         }catch(FileNotFoundException fex){
-            Logger.getLogger(FileServer.class.getName()).log(Level.SEVERE, fex.getMessage());
+            Logger.getLogger(FileServer.class.getName()).log(Level.SEVERE, "File fetch error:"+fex.getMessage());
             
         }catch(IOException ioe){
-            Logger.getLogger(FileServer.class.getName()).log(Level.SEVERE, ioe.getLocalizedMessage());
+            Logger.getLogger(FileServer.class.getName()).log(Level.SEVERE, "IO error: "+ioe.getLocalizedMessage());
         }
         finally{
             if(fis!=null){
@@ -66,6 +67,13 @@ public class FileServer extends HttpServlet {
                 }catch(IOException ioe){}
             }
         }
+    }
+    
+    private String appendImageDir(String file){
+        String imagesDir = "http://localhost:8080/allexi-images/";
+        file = imagesDir + file;
+        Logger.getLogger(FileServer.class.getName()).log(Level.INFO,"File is: "+file);
+        return file;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

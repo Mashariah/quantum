@@ -23,28 +23,28 @@ public class Vehicle {
     private String model;
     private String color;
     private Date year;
-    private boolean satNav;
-    private boolean advEnt;
-    private boolean chauffered;
     private String features;
-    
-    //list of picture files for this vehicle 
-    private List<String> imageFiles;
+    private String teaserImg;
+    private String detailImg;
+    private String thumbnail1Img;
+    private String thumbnail2Img;
+    private String thumbnail3Img;
 
-    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,int satNav,int advEnt,
-            int chauffered,List<String> images,String features){
+    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,String features,
+            String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
         this.vehicleId = vId;
         this.registrationNumber = regNum;
         this.make = make;
         this.model = model;
         this.color = color;
         this.year = year;
-        this.satNav = convertIntToBoolean(satNav);
-        this.advEnt = convertIntToBoolean(advEnt);
-        this.chauffered = convertIntToBoolean(chauffered);
-        this.imageFiles = images;
         this.features = features;
-    }
+        this.teaserImg = teaserImg;
+        this.detailImg = detailImg;
+        this.thumbnail1Img = thumnail1Img;
+        this.thumbnail2Img = thumnail2Img;
+        this.thumbnail3Img = thumnail3Img;
+       }
  
 
     /**
@@ -132,71 +132,6 @@ public class Vehicle {
     }
 
     /**
-     * @return the satNav
-     */
-    public boolean isSatNav() {
-        return satNav;
-    }
-
-    /**
-     * @param satNav the satNav to set
-     */
-    public void setSatNav(boolean satNav) {
-        this.satNav = satNav;
-    }
-
-    /**
-     * @return the advEnt
-     */
-    public boolean isAdvEnt() {
-        return advEnt;
-    }
-
-    /**
-     * @param advEnt the advEnt to set
-     */
-    public void setAdvEnt(boolean advEnt) {
-        this.advEnt = advEnt;
-    }
-
-    /**
-     * @return the chauffered
-     */
-    public boolean isChauffered() {
-        return chauffered;
-    }
-
-    /**
-     * @param chauffered the chauffered to set
-     */
-    public void setChauffered(boolean chauffered) {
-        this.chauffered = chauffered;
-    }
-
-    /**
-     * @return the imageFile
-     */
-    public List<String> getImageFiles() {
-        return imageFiles;
-    }
-
-    /**
-     * @param imageFiles the imageFile to set
-     */
-    public void setImageFiles(List<String> imageFiles) {
-        this.imageFiles = imageFiles;
-    }
-    
-    /** utility methods**/
-        private boolean convertIntToBoolean(int num){
-        boolean state = false;
-        if(num>0){
-            state =  true;
-        }
-        return state;
-    }
-
-    /**
      * @return the features
      */
     public String getFeatures() {
@@ -209,25 +144,76 @@ public class Vehicle {
     public void setFeatures(String features) {
         this.features = features;
     }
-    
-    /**
-     * Utility method to split the different files names into individual list items
-     * @param allFiles
-     * @return 
-     */
-    public  static List <String> splitFileNames (String allFiles) {
-        List <String> filesNames;
-        //split to items at each ','
-        String [] items = allFiles.split(",",5);
-        filesNames = Arrays.asList(items);
-        return filesNames;
-    }
-    
-//    public static void main(String[] args) {
-//        List <String> l = Vehicle.splitFileNames("Allex,Joy,Kim,Baseey,Hilade");
-//        for (String s : l) {
-//            System.out.println("Current: "+s+"\n");
-//        }
-//    }
 
+    /**
+     * @return the teaserImg
+     */
+    public String getTeaserImg() {
+        return teaserImg;
+    }
+
+    /**
+     * @param teaserImg the teaserImg to set
+     */
+    public void setTeaserImg(String teaserImg) {
+        this.teaserImg = teaserImg;
+    }
+
+    /**
+     * @return the detailImg
+     */
+    public String getDetailImg() {
+        return detailImg;
+    }
+
+    /**
+     * @param detailImg the detailImg to set
+     */
+    public void setDetailImg(String detailImg) {
+        this.detailImg = detailImg;
+    }
+
+    /**
+     * @return the thumbnail1Img
+     */
+    public String getThumbnail1Img() {
+        return thumbnail1Img;
+    }
+
+    /**
+     * @param thumbnail1Img the thumbnail1Img to set
+     */
+    public void setThumbnail1Img(String thumbnail1Img) {
+        this.thumbnail1Img = thumbnail1Img;
+    }
+
+    /**
+     * @return the thumbnail2Img
+     */
+    public String getThumbnail2Img() {
+        return thumbnail2Img;
+    }
+
+    /**
+     * @param thumbnail2Img the thumbnail2Img to set
+     */
+    public void setThumbnail2Img(String thumbnail2Img) {
+        this.thumbnail2Img = thumbnail2Img;
+    }
+
+    /**
+     * @return the thumbnail3Img
+     */
+    public String getThumbnail3Img() {
+        return thumbnail3Img;
+    }
+
+    /**
+     * @param thumbnail3Img the thumbnail3Img to set
+     */
+    public void setThumbnail3Img(String thumbnail3Img) {
+        this.thumbnail3Img = thumbnail3Img;
+    }
+
+   
 }
