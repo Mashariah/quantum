@@ -29,6 +29,7 @@ public class Vehicle {
     private String thumbnail1Img;
     private String thumbnail2Img;
     private String thumbnail3Img;
+    private RateModel rateModel;
 
     public Vehicle(int vId,String regNum,String make,String model,String color,Date year,String features,
             String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
@@ -45,6 +46,14 @@ public class Vehicle {
         this.thumbnail2Img = thumnail2Img;
         this.thumbnail3Img = thumnail3Img;
        }
+    
+    public void setRateModel(RateModel model){
+        this.rateModel = model;
+    }
+    
+    public RateModel getRateModel(){
+        return  rateModel;
+    }
  
 
     /**

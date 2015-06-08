@@ -1,0 +1,30 @@
+var url = "charges?dateFrom="+dateFrom+"dateTo="+dateTo+"timerFrom="+timerFrom+"timerTo="+timerTo ;
+                        console.log("url =:"+url);
+                //create XMLHTTP request object... for IE7+, Chrome, Firefox, Opera 
+                if (window.XMLHttpRequest) {
+                    xmlHttpRequest = new XMLHttpRequest();
+                        console.log("created xmlhttprequest obj");
+                }
+                //.... for IE5 and IE6
+                else {
+                    xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                //when ze response arrives...
+                xmlHttpRequest.onreadystatechange = function() {
+                        console.log("entered response...");
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+                        console.log("entered response2...");
+                        var response = xmlHttpRequest.responseText; //server results
+                        console.log("response="+response);
+                        var jsResponseObj = response;
+                        console.log(jsResponseObj.amount);
+                        console.log(jsResponseObj.duration);
+//                        
+//                        document.getElementById("td_duration").innerHTML = jsResponseObj.duration;
+//                        document.getElementById("td_amount").innerHTML = jsResponseObj.amount;
+                                
+                    }
+                }
+//                xmlHttpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlHttpRequest.open("GET", url, true); //send using post to servlet charges
+                xmlHttpRequest.send(null);

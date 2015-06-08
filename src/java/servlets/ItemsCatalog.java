@@ -50,7 +50,8 @@ public class ItemsCatalog extends HttpServlet {
             Logger.getLogger(ItemsCatalog.class.getName()).log(Level.SEVERE, "The connection object is null");
         }
         String sqlStatement = "select vehicle_id,registration_num,make,model,color,_year,features,teaser_img,detail_img,thumbnail1_img,"
-                + "thumbnail2_img,thumbnail3_img from cars;";
+                + "thumbnail2_img,thumbnail3_img,daily_charge,hourly_charge,weekly_charge  from cars"
+                + " join rate_model where cars.rates = rate_model.rate_id;";
 
         //fetch results...and create list
         vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement);

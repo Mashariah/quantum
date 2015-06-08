@@ -62,43 +62,46 @@
             </table>
            </div>
         <div class="fee-calculator-panel">
-            <div class="fee-calculator-panel-bar"><h3>Charges Calculator: ${target_vehicle.make} ${target_vehicle.model}</h3></div>
-            <form name="" action="rers">
+            <div class="fee-calculator-panel-bar"><h4>Charges Calculator: ${target_vehicle.make} ${target_vehicle.model}</h4></div>
+            <!--<form >-->
                 
                 <table class="booking">
                 <tbody>
+                    <tr><td><h4>Hourly: </h4>${target_vehicle.rateModel.hourlyCharge}</td>
+                        <td><h4>Daily: </h4>${target_vehicle.rateModel.dailyCharge}</td>
+                        <td><h4>Weekly: </h4>${target_vehicle.rateModel.weeklyCharge}</td></tr>
                     <tr>
                         <td >Select rate type</td>
-                        <td colspan="2"><select>
-                                <option>Hourly (ksh. 700)</option>
-                                <option>Daily(ksh. 4500)</option>
-                                <option>Weekly (ksh. 12,700)</option>
+                        <td colspan="2"><select name="calcOption" id="calcOption">
+                                <option value="hourly">Hourly ${target_vehicle.rateModel.hourlyCharge}</option>
+                                <option  value="daily">Daily: ${target_vehicle.rateModel.dailyCharge}</option>
+                                <option  value="weekly">Weekly: ${target_vehicle.rateModel.weeklyCharge}</option>
                             </select></td>
                     </tr>
                     <tr>
                         <td>Pickup Date</td>
-                        <td><input type="text" id="datepickerFrom" name="txFrom"/></td>
+                        <td><input type="text" id="datepickerFrom" name="tx_dateFrom"/></td>
                         <td>Time</td>
-                        <td><input type="text" id="timerFrom" name="txFrom"/></td>
+                        <td><input type="text" id="timerFrom" name="tx_timeFrom"/></td>
                     </tr>
                     <tr>
                         <td>Return Date</td>
-                        <td><input type="text" id="datepickerTo" name="txTo"/></td>
+                        <td><input type="text" id="datepickerTo" name="tx_dateTo"/></td>
                         <td>Time</td>
-                        <td><input type="text" id="timerTo" name="txFrom"/></td>
+                        <td><input type="text" id="timerTo" name="tx_timeTo"/></td>
                     </tr>
-                    <tr><td colspan="4"><button id="calcCharges">Get Charges</button></td></tr>
+                    <tr><td colspan="4"><button id="calcCharges" onclick="calculateCharges()">Get Charges</button></td></tr>
                     <tr>
-                        <td colspan="4" style="text-align: right;"><h4>Duration: </h4></td>
+                        <td id="td_duration"colspan="4" style="text-align: right;"><h4>Duration: </h4></td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="text-align: right;"><h4>Amount:</h4></td></td>
+                        <td id="td_amount" colspan="4" style="text-align: right;"><h4>Amount:</h4></td></td>
                     </tr>
-                    <tr><td colspan="4"><button id="back" >Book Now</button>
-                    <button id="back" >Back</button></td></tr>
+                    <tr><td colspan="4"><a href="booking"><button id="back" >Book Now</button></a>
+                            <button id="back" type="submit" value="catalog" >Back</button></td></tr>
                 </tbody>
             </table>
-                </form>
+            <!--</form>-->
         </div>
         <%@include file="templates/footer.html" %>
     </body>
@@ -108,7 +111,53 @@
             $("#datepickerTo").datepicker();
             $("#timerFrom").timepicker();
             $("#timerTo").timepicker();
-            
+            console.log("done good");
         });
+
+//
+        function calculateCharges(){
+            console.log("entered method...")
+            //encode any special characters in the date values..
+            var dateFrom = encodeURIComponent(document.getElementById("datepickerFrom").value);
+            var dateTo= encodeURIComponent(document.getElementById("datepickerTo").value);
+            var timerFrom = encodeURIComponent(document.getElementById("timerFrom").value);
+            var timerTo = encodeURIComponent(document.getElementById("timerTo").value);
+            var calcOption = encodeURIComponent(document.getElementById("calcOption").value);
+                        console.log("dateForm =:"+dateFrom);
+                        console.log("dateTo =:"+dateTo);
+                        console.log("timerFrom =:"+timerFrom);
+                        console.log("timerTo =:"+timerTo);
+            var url = "charges?dateFrom="+dateFrom+"&dateTo="+dateTo+"&timerFrom="+timerFrom+"&timerTo="+timerTo
+            +"&calcOption="+calcOption+"&hCharge="+${target_vehicle.rateModel.hourlyCharge}+"&dCharge="+${target_vehicle.rateModel.dailyCharge}
+    +"&wCharge="+${target_vehicle.rateModel.weeklyCharge};
+                        console.log("url =:"+url);
+                //create XMLHTTP request object... for IE7+, Chrome, Firefox, Opera 
+                if (window.XMLHttpRequest) {
+                    xmlHttpRequest = new XMLHttpRequest();
+                        console.log("created xmlhttprequest obj");
+                }
+                //.... for IE5 and IE6
+                else {
+                    xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                //when ze response arrives...
+                xmlHttpRequest.onreadystatechange = function() {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+                        var response = xmlHttpRequest.responseText; //server results
+                        console.log("response="+response);
+                        var jsResponseObj = JSON.parse(response);
+                        document.getElementById("td_duration").innerHTML=
+                                "<h5>Duration: "+jsResponseObj.duration+" "+jsResponseObj.indicator+"</h5>";
+                        document.getElementById("td_amount").innerHTML=
+                                "<h5>Amount: Ksh "+jsResponseObj.amount+"</h5>";
+
+                    }
+                }
+//                xmlHttpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlHttpRequest.open("GET", url, true); //send using post to servlet charges
+                xmlHttpRequest.send(null);                        
+                        
+            }
+        
     </script>
 </html>

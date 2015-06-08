@@ -5,7 +5,7 @@
  */
 package services;
 
-import com.sun.xml.rpc.processor.modeler.j2ee.xml.descriptionType;
+import domain.RateModel;
 import domain.Vehicle;
 import domain.VehicleDescription;
 import java.sql.Connection;
@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,8 +48,16 @@ public class DbRequestService {
                             String thumbnail2File = results.getString("thumbnail2_img");
                             String thumbnail3File = results.getString("thumbnail3_img");
                             
+                            //get  and create the rate model
+                            Double daily = results.getDouble("daily_charge");
+                            Double hourly = results.getDouble("hourly_charge");
+                            Double weekly = results.getDouble("weekly_charge");
+                            
+                            RateModel rm = new RateModel(daily,hourly,weekly);
                             Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year, 
                                     features,teaserImgFile,detailImgFile,thumbnail1File,thumbnail2File,thumbnail3File);
+                            //set the rate model on vehicle
+                            current.setRateModel(rm);
                             vehicleList.add(current);
                         }
                     } 

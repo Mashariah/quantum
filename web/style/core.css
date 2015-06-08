@@ -149,8 +149,14 @@ Copyright 2015
 
 .menu li{
     display: inline;
-    padding: 20px;
+    padding: 10px;
     font-size: 0.8em;
+}
+
+.menu li#login_anchor{
+    float: right;
+    font-size: smaller;
+    float: right; display: inline; padding: 0px; font-size: 0.8em; 
 }
 
 .menu a{
@@ -162,6 +168,7 @@ Copyright 2015
 .menu a:hover{
     color: #666666;
     background: #ffffff;
+    padding: 8px;
 }
 
 
@@ -388,13 +395,13 @@ strong{
    margin:0px;
 }
 
-.fee-calculator-panel form input,select{
+.fee-calculator-panel  input,select{
     width:100px;
     border:solid thin #666;
     padding: 3px;
 }
 
-.fee-calculator-panel form button{
+.fee-calculator-panel  button{
     width:100px;
     height: 30px;
     margin-bottom: 5px;
@@ -404,6 +411,18 @@ strong{
     border: #9966ff thin solid;
     border-radius: 3px;
     font-weight: bold;
+}
+
+.fee-calculator-panel label{
+    font-weight: 700;
+    color: #666666;
+    font-family: droid,courier;
+}
+
+.fee-calculator-panel h5{
+    font-weight: 900;
+    font-size: 1.1em;
+    color: #666666;
 }
 
 .booking th, tr, td{

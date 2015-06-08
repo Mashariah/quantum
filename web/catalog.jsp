@@ -46,16 +46,14 @@
                     </a>
                 </div>
             </c:forEach>
-<!--            <div class="catalog-item"><img src="resc/images/audi_A3.png"/></div>
-            <div class="catalog-item"><img src="resc/images/audi_C.png" /></div>
-            <div class="catalog-item"><img src="resc/images/audi_Q7.png"/></div>-->
         </div>
 
         <%@include file="templates/footer.html" %>
     </body>
     <script>
         $(document).ready(function (){
-            
+            //replace login text with username/email
+            document.getElementById("login")
         });
     </script>
 </html>

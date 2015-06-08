@@ -6,6 +6,7 @@
 
 package servlets;
 
+import domain.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,6 +36,7 @@ public class Authenticate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String retrievedEmailAddr="";
         String userName = request.getParameter("tx_user");
         String password = request.getParameter("tx_password");
         Logger.getLogger(Authenticate.class.getName()).log(Level.INFO,"user:{0}",userName);
@@ -58,7 +60,7 @@ public class Authenticate extends HttpServlet {
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(sql); //expect 1 result
         rs.next();
-        String retrievedEmailAddr = rs.getString("email_address");
+        retrievedEmailAddr = rs.getString("email_address");
         String retrievedPassHash = rs.getString("password");
         String retrievedSalt = rs.getString("salt");
         valid = LoginControl.validatePasswordHash(password, retrievedPassHash, retrievedSalt);
@@ -70,7 +72,12 @@ public class Authenticate extends HttpServlet {
         if(valid){
             //redirect to catalog page
              //TODO should call the ItemsCatalog servlet
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog.jsp");
+            //TODO create user session and attach details retrieved from database...
+            User user = new User();
+            user.setUserName(userName);
+            user.setEmail(retrievedEmailAddr);
+            request.getSession().setAttribute("user",user);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog");
         dispatcher.forward(request, response);
         }else{
             //store error attribute and show login page+error
