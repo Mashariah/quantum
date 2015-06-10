@@ -18,7 +18,7 @@
     </head>
     <body>
         <div class="header"><h1></h1></div>
-        <%@include file="templates/navigation.html" %>
+        <%@include file="templates/navigation.jsp" %>
         <div id="slider-content">
             <ul class="bxslider">
                 <li><img src="resc/images/audi1.png"</li>

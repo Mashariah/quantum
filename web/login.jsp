@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="header"><h1></h1></div>
-        <%@include file="templates/navigation.html" %>
+        <%@include file="templates/navigation.jsp" %>
             <div class="login_panel">
             <form action="auth" method="POST">
                 <div class="title_bar"> Login</div>

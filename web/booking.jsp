@@ -24,7 +24,7 @@
             .ui-datepicker {font-size: 9pt !important}
         </style>
         <div class="header"></div>
-        <%@include file="templates/navigation.html" %>
+        <%@include file="templates/navigation.jsp" %>
         <form method="POST" action="booking_processor" class="form-layout">
             <h2>${target_vehicle.make} ${target_vehicle.model} Booking</h2><hr><br>
             

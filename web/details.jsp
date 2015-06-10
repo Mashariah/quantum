@@ -25,7 +25,7 @@
             .ui-datepicker {font-size: 9pt !important}
         </style>
         <div class="header"></div>
-        <%@include file="templates/navigation.html" %>
+        <%@include file="templates/navigation.jsp" %>
             <%
                 int vId =(Integer)request.getAttribute("vehicleId");
 //                int  vId = Integer.parseInt(id);

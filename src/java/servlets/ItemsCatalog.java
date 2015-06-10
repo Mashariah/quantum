@@ -43,6 +43,7 @@ public class ItemsCatalog extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
             vehiclesList = new ArrayList<>();
         //get the connection obj
         Connection dbConn = (Connection) request.getServletContext().getAttribute("connector");

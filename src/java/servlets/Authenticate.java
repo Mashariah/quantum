@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import services.LoginControl;
 
 /**
@@ -37,6 +38,10 @@ public class Authenticate extends HttpServlet {
             throws ServletException, IOException {
 
         String retrievedEmailAddr="";
+        String userType = "";
+        String fName="";
+        String lName="";
+        String phone="";
         String userName = request.getParameter("tx_user");
         String password = request.getParameter("tx_password");
         Logger.getLogger(Authenticate.class.getName()).log(Level.INFO,"user:{0}",userName);
@@ -60,9 +65,14 @@ public class Authenticate extends HttpServlet {
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(sql); //expect 1 result
         rs.next();
+        fName = rs.getString("first_name");
+        lName = rs.getString("last_name");
         retrievedEmailAddr = rs.getString("email_address");
         String retrievedPassHash = rs.getString("password");
         String retrievedSalt = rs.getString("salt");
+        phone = rs.getString("phone");
+        userType = rs.getString("type");
+        
         valid = LoginControl.validatePasswordHash(password, retrievedPassHash, retrievedSalt);
         
         }
@@ -75,10 +85,25 @@ public class Authenticate extends HttpServlet {
             //TODO create user session and attach details retrieved from database...
             User user = new User();
             user.setUserName(userName);
+            user.setfName(fName);
+            user.setlName(lName);
             user.setEmail(retrievedEmailAddr);
-            request.getSession().setAttribute("user",user);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog");
-        dispatcher.forward(request, response);
+            user.setPhone(phone);
+            user.setType(userType);
+            
+            //create session if none exists and attach user to it.
+            HttpSession session = request.getSession();
+            session.setAttribute("user",user);
+            Logger.getLogger(Authenticate.class.getName()).log(Level.INFO, "create session and user: "+
+                    session.getAttribute("user").toString());
+            if(user.getType().equals("user")){
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog");
+                dispatcher.forward(request, response);
+            }else{
+                //redirect admin user to admin page...
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                dispatcher.forward(request, response);
+            }
         }else{
             //store error attribute and show login page+error
             request.setAttribute("error", "user name or passord not correct");
