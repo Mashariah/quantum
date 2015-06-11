@@ -12,13 +12,48 @@ package domain;
  */
 public class User {
     
+    private int userId;
     private String fName;
     private String lName;
     private String userName;
     private String passHash;
+    private String salt;
     private String email;
     private String phone;
     private String type;
+    
+    public User(){
+        
+    }
+    
+    /**
+     * Create user with full details in registration
+     */
+        public User(String fName,String lName,String email,String phone,String userName,String passHash,String salt, String type){
+        
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.phone = phone;
+        this.type = type;
+        this.passHash = passHash;
+        this.salt = salt;
+        
+    }
+    
+        /**
+         * Create visitor user for vehicle booking...only critical info stored
+         * @param fName
+         * @param lName
+         * @param email
+         * @param phone 
+         */
+    public User(String fName,String lName,String email,String phone){
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.phone = phone;
+    }
 
     /**
      * @return the fName
@@ -114,8 +149,22 @@ public class User {
     /**
      * @param type the type to set
      */
-    public void setType(String type) {
+    public void setType(String  type) {
         this.type = type;
+    }
+
+    /**
+     * @return the userId
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     
     

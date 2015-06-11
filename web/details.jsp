@@ -97,7 +97,7 @@
                     <tr>
                         <td id="td_amount" colspan="4" style="text-align: right;"><h4>Amount:</h4></td></td>
                     </tr>
-                    <tr><td colspan="4"><a href="booking"><button id="back" >Book Now</button></a>
+                    <tr><td colspan="4"><a href="booking.jsp"><button id="back" >Book Now</button></a>
                             <button id="back" type="submit" value="catalog" >Back</button></td></tr>
                 </tbody>
             </table>

@@ -42,7 +42,7 @@
                     <!--call servlet to get the vehicle details-->
                     <a href="details?selected_vehicle=${current.vehicleId}">
                         <img src="fileserver?param1=${current.teaserImg}"/>
-                        <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}</div>
+                        <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}<br>${current.status}</div>
                     </a>
                 </div>
             </c:forEach>

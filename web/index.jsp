@@ -13,8 +13,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/jquery.bxslider.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="style/core.css"/>
         <link href="style/jquery.bxslider.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="style/core.css"/>
     </head>
     <body>
         <div class="header"><h1></h1></div>
@@ -22,13 +22,13 @@
         <div id="slider-content">
             <ul class="bxslider">
                 <li><img src="resc/images/audi1.png"</li>
+                <li><img src="resc/images/audi_Q7.png"</li>
                 <li><img src="resc/images/audi_A3.png"</li>
                 <li><img src="resc/images/audi_A4.png"</li>
+                <li><img src="resc/images/audi_e-tron.png"</li>
                 <li><img src="resc/images/audi_C.png"</li>
                 <li><img src="resc/images/audi_Q5.png"</li>
-                <li><img src="resc/images/audi_Q7.png"</li>
                 <li><img src="resc/images/audi_RS.png"</li>
-                <li><img src="resc/images/audi_e-tron.png"</li>
             </ul>
         </div>
         <div id="slider-description">

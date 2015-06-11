@@ -30,6 +30,7 @@ public class Vehicle {
     private String thumbnail2Img;
     private String thumbnail3Img;
     private RateModel rateModel;
+    private String status;
 
     public Vehicle(int vId,String regNum,String make,String model,String color,Date year,String features,
             String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
@@ -222,6 +223,20 @@ public class Vehicle {
      */
     public void setThumbnail3Img(String thumbnail3Img) {
         this.thumbnail3Img = thumbnail3Img;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
    

@@ -20,12 +20,17 @@
     </head>
     <body>
         
+        <%
+//            User user = (User)request.getSession().getAttribute("user");
+            
+            %>
+        
         <style>
             .ui-datepicker {font-size: 9pt !important}
         </style>
         <div class="header"></div>
         <%@include file="templates/navigation.jsp" %>
-        <form method="POST" action="booking_processor" class="form-layout">
+        <form method="POST" action="booking" class="form-layout">
             <h2>${target_vehicle.make} ${target_vehicle.model} Booking</h2><hr><br>
             
 
@@ -36,28 +41,28 @@
                     <tr><td><h3>Personal Info</h3></td></tr>
                     <tr>
                         <td colspan="4"> <input type="checkbox"  id="txt_return_location" name="tx_return_location" placeholder="Return Location"/>
-                            <strong>I am a registered user on this site</strong>
+                            <strong>${user_add_error}</strong>
                         </td>
                     </tr>
                     <tr>
                 <td><label>First name</label></td>
-                <td><input type="text"  id="txt_fname" name="tx_fname" placeholder="Enter first name"/></td></td>
+                <td><input type="text"  id="txt_fname" name="tx_fname" placeholder="Enter first name" value="${user.fName}"/></td></td>
                 <td><label>Last Name</label></td>
-                <td><input type="text"  id="txt_lname" name="tx_lname" placeholder="Enter last name"/></td></td>
+                <td><input type="text"  id="txt_lname" name="tx_lname" placeholder="Enter last name" value="${user.lName}"/></td></td>
                     </tr>
                     <tr>
                 <td><label>Email Address</label></td>
-                <td><input type="text"  id="txt_email" name="tx_email" placeholder="Enter email address"/></td></td>
+                <td><input type="text"  id="txt_email" name="tx_email" placeholder="Enter email address" value="${user.email}"/></td></td>
                 <td><label>Phone Number</label></td>
-                <td><input type="text"  id="txt_phone" name="tx_phone" placeholder="Phone e.g (+254 7702 111111)"/></td></td>
+                <td><input type="text"  id="txt_phone" name="tx_phone" placeholder="Phone e.g (+254 7702 111111)" value="${user.phone}"/></td></td>
                     </tr>
                     <tr><td><br><h3>Pick-up Details</h3></td></tr>
                     <tr>
                         <td><label>Pick up Location</label></td>
-                        <td><input type="text"  id="txt_pick_location" name="tx_pick_location" placeholder="Enter area or town"/></td>
+                        <td><input type="text"  id="txt_pick_location" name="tx_pickup_loc" placeholder="Enter area or town"/></td>
                         <td><label>Town</label></td>
                         <td>
-                            <select>
+                            <select name="opt_pickup_town">
                                 <option>Nairobi</option>
                                 <option>Thika</option>
                                 <option>Karen</option>
@@ -69,15 +74,15 @@
                     </tr>
                     <tr>
                         <td><label>Pick up Date</label></td>
-                        <td><input type="text" id="datepicker"/></td>
+                        <td><input type="text" id="datepicker" name="tx_dpickup"/></td>
                         <td><label>Time</label></td>
-                        <td><input type="text" id="timer1"/></td>
+                        <td><input type="text" id="timer1" name="tx_tpickup"/></td>
                     </tr>
                     <tr>
                         <td><label>Return Date</label></td>
-                        <td><input type="text" id="datepicker2"/></td>
+                        <td><input type="text" id="datepicker2" name="tx_ddropoff"/></td>
                         <td><label>Time</label></td>
-                        <td><input type="text" id="timer2"/></td>
+                        <td><input type="text" id="timer2" name="tx_tdropoff"/></td>
                     </tr>
                     <tr>
                         <td><label>Renter's Age</label></td>
@@ -94,11 +99,11 @@
                     </tr>
                     <tr >
                         <td colspan="2"> 
-                    <input type="checkbox"  id="txt_return_location" name="tx_return_location" placeholder="Return Location"/>
+                    <input type="checkbox"  id="txt_return_location" name="checkbx_dropoff" placeholder="Return Location"/>
                     <label>From Pick Up Location</label>
                 </td>
                 <td><label>Other (Specify) </label></td>
-                <td><input type="text"  id="txt_return_location" name="tx_return_location" placeholder="Return Location"/></td>
+                <td><input type="text"  id="txt_return_location" name="tx_dropoff" placeholder="Return Location"/></td>
                     </tr>
                     <tr>
                         <td colspan="4"><button type="submit" name='book'>Book Now</button></td>
