@@ -372,6 +372,16 @@ strong{
     font-size: medium;
 }
 
+.form-layout button#upload{
+    padding: 2px;
+    margin: 2px;
+    width:70px;
+    height: 25px;
+    font-size: small;
+    font-weight: bold;
+    padding: 3px;
+}
+
 .form-layout  [type=text]{
     border: solid  #666666 thin;
     width: 150px;
@@ -430,4 +440,48 @@ strong{
     border-top: dotted #666\9 thin;    
     padding: 5px 5px;
     border-collapse: collapse;
+}
+
+.dashboard-menu-panel{
+    width:22%;
+    background: #ffffff;
+    margin-top: 3px ;
+    padding: 5px 5px;
+    float: left;
+    height:200px;
+}
+
+.dashboard-menu-panel a{
+    display: inline-block;
+    height:20px;
+    width: 100%;
+    font-size: small;
+    font-weight:600;
+    color: #333333;
+    background: #9966ff;
+    margin: 2px 3px 2px 3px;
+    /*padding: 2px 2px 2px 2px;*/
+    text-align:center;
+    text-decoration: none;
+}
+
+.dashboard-menu-panel a:hover{
+    background: #cccccc;
+}
+
+.dashboard-workspace{
+    width:75%;
+    background: #ffffff;
+    padding: 5px;
+    margin: 1px;
+    float: right;
+    height:100%;
+}
+
+.tracking-panel{
+    width: 76%;
+    height: 200px;
+    background:#ccc;
+    margin-left: 5px;
+    float:right;
 }

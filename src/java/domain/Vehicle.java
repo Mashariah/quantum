@@ -6,7 +6,9 @@
 
 package domain;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Vehicle {
     private String model;
     private String color;
     private Date year;
-    private String features;
+//    private String features;
     private String teaserImg;
     private String detailImg;
     private String thumbnail1Img;
@@ -32,7 +34,7 @@ public class Vehicle {
     private RateModel rateModel;
     private String status;
 
-    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,String features,
+    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,
             String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
         this.vehicleId = vId;
         this.registrationNumber = regNum;
@@ -40,13 +42,25 @@ public class Vehicle {
         this.model = model;
         this.color = color;
         this.year = year;
-        this.features = features;
+//        this.features = features;
         this.teaserImg = teaserImg;
         this.detailImg = detailImg;
         this.thumbnail1Img = thumnail1Img;
         this.thumbnail2Img = thumnail2Img;
         this.thumbnail3Img = thumnail3Img;
        }
+    
+    //create new vehicles from form...attach images using getset
+    public Vehicle(String regNum,String make,String model,String  year){
+        this.registrationNumber = regNum;
+        this.make = make;
+        this.model = model;
+        this.color="Black";
+        SimpleDateFormat sdf = new SimpleDateFormat("yy");
+        try{
+        this.year = sdf.parse(year);
+        }catch(ParseException pxe){System.out.println("Parse exception occured");}
+    }
     
     public void setRateModel(RateModel model){
         this.rateModel = model;
@@ -140,20 +154,20 @@ public class Vehicle {
     public void setYear(Date year) {
         this.year = year;
     }
-
-    /**
-     * @return the features
-     */
-    public String getFeatures() {
-        return features;
-    }
-
-    /**
-     * @param features the features to set
-     */
-    public void setFeatures(String features) {
-        this.features = features;
-    }
+//
+//    /**
+//     * @return the features
+//     */
+//    public String getFeatures() {
+//        return features;
+//    }
+//
+//    /**
+//     * @param features the features to set
+//     */
+//    public void setFeatures(String features) {
+//        this.features = features;
+//    }
 
     /**
      * @return the teaserImg

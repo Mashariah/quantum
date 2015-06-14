@@ -10,6 +10,7 @@ import domain.Vehicle;
 import domain.VehicleDescription;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,7 +42,6 @@ public class DbRequestService {
                 String model = results.getString("model");
                 String color = results.getString("color");
                 Date year = results.getDate("_year");
-                String features = results.getString("features");
                 String teaserImgFile = results.getString("teaser_img");
                 String detailImgFile = results.getString("detail_img");
                 String thumbnail1File = results.getString("thumbnail1_img");
@@ -56,7 +56,7 @@ public class DbRequestService {
 
                 RateModel rm = new RateModel(daily, hourly, weekly);
                 Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year,
-                        features, teaserImgFile, detailImgFile, thumbnail1File, thumbnail2File, thumbnail3File);
+                        teaserImgFile, detailImgFile, thumbnail1File, thumbnail2File, thumbnail3File);
                 //set the rate model on vehicle
                 current.setRateModel(rm);
                 current.setStatus(status);
@@ -65,6 +65,7 @@ public class DbRequestService {
         } catch (SQLException sqle) {
             Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.SEVERE, sqle.getLocalizedMessage());
         }
+            Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO,"List of vehicles = {0}",vehicleList.size());
         return vehicleList;
     }
 
@@ -145,5 +146,83 @@ public class DbRequestService {
         }
        
         return done;
+    }
+    
+    public static int getLastAddedVehicle(Connection c){
+        int last = 0;
+        String sql = "select vehicle_id from cars order by vehicle_id desc limit 1;";
+        try{
+        Statement s = c.createStatement();
+        ResultSet rs = s.executeQuery(sql);
+        if(rs!=null && rs.next()){
+            last = rs.getInt("vehicle_id");
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "last vehicle id = {0}", last);
+        }
+        }catch(SQLException sqle){
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in getting last added: {0}", sqle.getMessage());
+            sqle.printStackTrace();
+        }
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "last vehicle id returning= {0}", last);
+        return last;
+    }
+    
+    public static boolean addVehicle(Connection conn,Vehicle v, VehicleDescription vd){
+        boolean isAdded = false;
+        PreparedStatement ps=null;
+        PreparedStatement ps2 = null;
+        String vehicleSql = "insert into cars(registration_num,make,model,color,_year,"
+                + "teaser_img,detail_img,thumbnail1_img,thumbnail2_img,thumbnail3_img,rates) "
+                + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try{
+        ps = conn.prepareStatement(vehicleSql);
+        ps.setString(1, v.getRegistrationNumber());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Model: {0}",v.getRegistrationNumber());
+        ps.setString(2, v.getMake());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Model: {0}",v.getMake());
+        ps.setString(3, v.getModel());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Model: {0}",v.getModel());
+        ps.setString(4, v.getColor());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Color: {0}",v.getColor());
+        
+        ps.setString(5, "2016"); //convert date from java.util.Date to java.sql.Date
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Date:== {0}",v.getYear());
+        ps.setString(6, v.getTeaserImg());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "TeaserImg: {0}",v.getTeaserImg());
+        ps.setString(7, v.getDetailImg());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "DetailImg: {0}",v.getDetailImg());
+        ps.setString(8, v.getThumbnail1Img());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Thumbnail1: {0}",v.getThumbnail1Img());
+        ps.setString(9, v.getThumbnail2Img());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Thumbnail2: {0}",v.getThumbnail2Img());
+        ps.setString(10, v.getThumbnail2Img());
+        ps.setInt(11,3);
+        ps.executeUpdate();
+        
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Success adding bare vehicle{0}");
+        //add description 
+//        int vehicleToUpdate;
+        String vehicleFeatures = "insert into car_features(vehicle_id,fuel_consumption,fuel_capacity,transmission,seating_cap,"
+                + "convinience,safety_security,entertainment,telematics,tire_wheels) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                int vehicleToUpdate = getLastAddedVehicle(conn);
+        ps2=conn.prepareCall(vehicleFeatures);
+        ps2.setInt(1, vehicleToUpdate);
+        ps2.setString(2, vd.getFuelConsumption());
+        ps2.setString(3, vd.getFuelCapacity());
+        ps2.setString(4, vd.getTransmission());
+        ps2.setInt(5, vd.getSeatingCapacity());
+        ps2.setString(6, vd.getConvinience());
+        ps2.setString(7, vd.getSafetyAndSecurity());
+        ps2.setString(8,vd.getEntertainment());
+        ps2.setString(9,vd.getTelematics());
+        ps2.setString(10,vd.getTireWheels());
+        
+        ps2.executeUpdate();
+        }catch(SQLException sqle){
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in addVehicle: {0}", sqle.getMessage());
+        sqle.printStackTrace();
+            System.out.println("MySQL error code: "+sqle.getErrorCode());
+            System.out.println("SQL state: "+sqle.getSQLState());
+        }
+        return isAdded;
     }
 }

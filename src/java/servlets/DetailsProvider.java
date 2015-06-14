@@ -33,7 +33,7 @@ public class DetailsProvider extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String selectedVehicle = request.getParameter("selected_vehicle");
-        
+        Logger.getLogger(DetailsProvider.class.getName()).log(Level.INFO,"selected vehicle is:{0}",selectedVehicle);
         String descriptionSql = "select vehicle_id,fuel_consumption,fuel_capacity,transmission,seating_cap,convinience,"
                 + "safety_security,entertainment,telematics,tire_wheels from car_features where vehicle_id="+selectedVehicle;
         VehicleDescription desc = DbRequestService.getVehicleDetails(dbConn, descriptionSql);

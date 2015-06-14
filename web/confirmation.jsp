@@ -12,6 +12,6 @@
         <title>Booking Confirmation</title>
     </head>
     <body>
-        <h1>Your booking is confirmed!</h1>
+        <h1>Your booking is confirmed! ${upload_message}</h1>
     </body>
 </html>

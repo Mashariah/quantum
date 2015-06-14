@@ -98,7 +98,7 @@ public class Authenticate extends HttpServlet {
                 dispatcher.forward(request, response);
             } else {
                 //redirect admin user to admin page...
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/vlisting");
                 dispatcher.forward(request, response);
             }
         } else {

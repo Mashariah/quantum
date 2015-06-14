@@ -49,8 +49,8 @@
             <!--<p></p>-->
             <table>
                 <tbody>
-                    <tr><td><h4>Fuel Consumption</h4></td><td>${description.fuelConsumption}</td></tr>
-                    <tr><td><h4>Fuel Capacity</h4></td><td>${description.fuelCapacity}</td></tr>
+                    <tr><td><h4>Fuel Consumption</h4></td><td>${description.fuelConsumption} Litres per Kilometer</td></tr>
+                    <tr><td><h4>Fuel Capacity</h4></td><td>${description.fuelCapacity} Litres</td></tr>
                     <tr><td><h4>Transmission</h4></td><td>${description.transmission}</td></tr>
                     <tr><td><h4>Seating Capacity</h4></td><td>${description.seatingCapacity}</td></tr>
                     <tr><td><h4>Convinience</h4></td><td>${description.convinience}</td></tr>
