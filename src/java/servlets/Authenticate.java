@@ -30,11 +30,11 @@ import services.LoginControl;
 public class Authenticate extends HttpServlet {
 
     private Connection connection;
-    private boolean valid;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        boolean valid = false;
         int userId = 0;
         String retrievedEmailAddr = "";
         String userType = "";
@@ -74,9 +74,11 @@ public class Authenticate extends HttpServlet {
             userType = rs.getString("type");
 
             valid = LoginControl.validatePasswordHash(password, retrievedPassHash, retrievedSalt);
+            Logger.getLogger(Authenticate.class.getName()).log(Level.INFO, "Login is valid:  ");
 
         } catch (SQLException sqe) {
-            Logger.getLogger(Authenticate.class.getName()).log(Level.SEVERE, "SQL Exception: ", sqe);
+            Logger.getLogger(Authenticate.class.getName()).log(Level.SEVERE, "Login Error:  ", sqe.getLocalizedMessage());
+            sqe.printStackTrace();
         }
         if (valid) {
             User user = new User();
@@ -93,6 +95,8 @@ public class Authenticate extends HttpServlet {
             session.setAttribute("user", user);
             Logger.getLogger(Authenticate.class.getName()).log(Level.INFO, "create session and user: "
                     + session.getAttribute("user").toString());
+            
+            //determine if user is ordinary user or admin
             if (user.getType().equals("user")) {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog");
                 dispatcher.forward(request, response);
@@ -102,7 +106,7 @@ public class Authenticate extends HttpServlet {
                 dispatcher.forward(request, response);
             }
         } else {
-            //store error attribute and show login page+error
+            //invalid login details provided....store error attribute and show login page+error
             request.setAttribute("error", "user name or passord not correct");
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);

@@ -7,6 +7,7 @@ package services;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,25 @@ import java.util.logging.Logger;
  * @author kelli
  */
 public class LoginControl {
+        private static final int SALT_BYTE_SIZE = 32;
 
+    /**
+     * Create 32 bit random string to use a salt for the hash
+     */
+    public static String getSalt() {
+        byte[] bytes = new byte[SALT_BYTE_SIZE]; //create an array for salt
+        try {
+            //provide a cryptographically secure random number generator 
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG"); //use SHA-1 message digest algorithm
+            random.nextBytes(bytes); //get random salt
+        } catch (NoSuchAlgorithmException exception) {
+            System.out.println("No such Argument Exception");
+        }
+        System.out.println("Salt: " + bytes.toString());
+        return bytes.toString();
+    }
+    
+    
     public static String generateHashFromPassword(String password, String salt) {
         String generatedPassword = null;
         try {
@@ -38,19 +57,6 @@ public class LoginControl {
         return generatedPassword;
     }
 
-    /**
-     *
-     * @param userPassword
-     * @param <error>
-     * @param retrievedPasswordHash
-     * @param retrivedSalt
-     * @return
-     *
-     * 1. Connect to database and get the stored hash and salt value for this
-     * user. 2. Get the password supplied by the user and generate a hash from
-     * it using the retrieved salt value. 3. Compare the retrieved and generated
-     * hashes.
-     */
     public static boolean validatePasswordHash(String userPassword, String retrievedPasswordHash, String retrivedSalt) {
 
         boolean valid = false;
@@ -63,5 +69,13 @@ public class LoginControl {
             Logger.getLogger(LoginControl.class.getName()).log(Level.INFO, "The Hashes dont match");
         }
         return valid;
+    }
+    
+    
+    
+    public static void main(String[] args) {
+        LoginControl.getSalt();
+        LoginControl.getSalt();
+        LoginControl.getSalt();
     }
 }

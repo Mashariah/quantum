@@ -34,6 +34,9 @@ public class Vehicle {
     private RateModel rateModel;
     private String status;
 
+    public Vehicle(){
+        
+    }
     public Vehicle(int vId,String regNum,String make,String model,String color,Date year,
             String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
         this.vehicleId = vId;

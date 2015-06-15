@@ -17,8 +17,8 @@
     <body>
         <div class="dashboard-menu-panel">
             <a href="vlisting">Vehicles</a>
-            <a href="bookings_list.jsp">Bookings</a>
-            <a href="tracking.jsp">Tracking</a>
+            <a href="tracklist?id=bookings">Bookings</a>
+            <a href="tracklist?id=track">Tracking</a>
         </div>
     </body>
 </html>

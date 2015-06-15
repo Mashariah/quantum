@@ -5,7 +5,10 @@
  */
 package services;
 
+import domain.Booking;
 import domain.RateModel;
+import domain.TrackingDescription;
+import domain.User;
 import domain.Vehicle;
 import domain.VehicleDescription;
 import java.sql.Connection;
@@ -224,5 +227,50 @@ public class DbRequestService {
             System.out.println("SQL state: "+sqle.getSQLState());
         }
         return isAdded;
+    }
+    
+    /**
+     * Get vehicle, status and booking details for tracking purposes
+     */
+    public static ArrayList getTrackingDetails(Connection conn,String sql){
+
+        ArrayList list = new ArrayList();
+        
+        Booking booking = new Booking();
+        Vehicle vehicle = new Vehicle();
+         User user = new User();
+         
+        try{
+        statement = conn.createStatement();
+        results = statement.executeQuery(sql);
+        while(results.next()){
+            //create the objects based on the results...
+            //vehicle
+            vehicle.setMake(results.getString("make"));
+            vehicle.setModel(results.getString("model"));
+            vehicle.setRegistrationNumber(results.getString("registration_num"));
+            
+            //booking
+            booking.setDtPickup(results.getString("dt_pickup"));
+            booking.setDtDropoff(results.getString("dt_dropoff"));
+            booking.setdLocation(results.getString("d_location"));
+            booking.setpLocation(results.getString("p_location"));
+            
+            //user/renter
+            user.setfName(results.getString("first_name"));
+            user.setlName(results.getString("last_name"));
+            user.setEmail(results.getString("email_address"));
+            user.setPhone(results.getString("phone"));
+            //set the objects into the arraylist
+        TrackingDescription td= new TrackingDescription(vehicle, booking, user);
+        list.add(td);
+        }
+
+        }catch(SQLException sqle){
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error getting track details"+sqle.getLocalizedMessage());
+            sqle.printStackTrace();
+        }
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "items in list: "+list.size());
+        return list;
     }
 }

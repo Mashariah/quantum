@@ -8,6 +8,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,11 +36,14 @@ public class Logout extends HttpServlet {
            
         Object userSession = request.getSession(false).getAttribute("user");
         if(userSession!=null){
+            Logger.getLogger(Logout.class.getName()).log(Level.INFO, "Logging out...");
             //invalidate session and return user to homepage
-            request.getSession().invalidate();
+            request.getSession(false).invalidate();
             
             RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
             requestDispatcher.forward(request, response);
+        }else{
+            Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, "Error logging out of session");
         }
     }
 

@@ -20,6 +20,10 @@ public class Booking {
     private String pLocation;
     private String dLocation; 
 
+    public Booking(){
+        
+    }
+    
     public Booking(int userId,int vehicleId,String dtPickup, String dtDropoff,String pLocation,String dLocation){
         this.userId = userId;
         this.vehicleId = vehicleId;

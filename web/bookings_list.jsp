@@ -4,6 +4,8 @@
     Author     : kelli
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +21,25 @@
          <%@include file="templates/navigation.jsp" %>
          <%@include  file="templates/dashboard_menu.jsp" %>
 
-                bookings page!
+         <table class="booking" style="background: #ffffff;">
+                 <thead>
+                 <td>Vehicle</td><td>Booked By</td><td>Email</td><td>Phone</td><td>From Date</td>
+                     <td>To Date</td>
+                 </thead>
+                 <tbody>
+                                         <c:forEach items="${trackingDetails}" var="current">
+                                             <tr>
+                                                 <td><c:out value="${current.vehicle.registrationNumber}
+                                                        ${current.vehicle.make}, ${current.vehicle.model}"></c:out></td>
+                                                 <td>${current.user.fName} ${current.user.lName}</td>
+                                                 <td>${current.user.email}</td>
+                                                 <td>${current.user.phone}</td>
+                                                 <td>${current.booking.dtPickup}</td>
+                                                 <td>${current.booking.dtDropoff}</td>
+                                             </tr>
+                                         </c:forEach>
+                 </tbody>
+             </table>
                   <%@include file="templates/footer.html" %>
     </body>
 </html>

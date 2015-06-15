@@ -19,14 +19,14 @@
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalog">Catalog</a></li>
                 <li><a href="booking.jsp">Booking</a></li>
-                <li><a href="">Contacts</a></li>
 
-                <li id="login_anchor"><a id="a_login" href="login">
+                <li id="login_anchor">
+                    <a id="a_login" href="login">
                 <%
                     if(request.getSession().getAttribute("user")!=null){
                         User user = (User)request.getSession().getAttribute("user");
                         out.print(user.getEmail());
-                        out.print("   <a href=\"logout\">logout</a>");
+                        out.print("     <a href=\"logout\">logout</a>");
                     }else{
                         out.print("Login");
                     }
