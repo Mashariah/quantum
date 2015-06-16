@@ -6,12 +6,14 @@
 
 package servlets;
 
+import domain.User;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.DbRequestService;
 import services.LoginControl;
 
 /**
@@ -20,6 +22,7 @@ import services.LoginControl;
  */
 public class RegisterUser extends HttpServlet {
 
+    private static final String  DEFAULT_USER_TYPE = "member";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,6 +34,10 @@ public class RegisterUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String pageAfter="";
+        
+        Connection connection = (Connection)getServletContext().getAttribute("connector");
        String fName = request.getParameter("tx_fname");
        String lName = request.getParameter("tx_lname");
        String email = request.getParameter("tx_email");
@@ -43,9 +50,21 @@ public class RegisterUser extends HttpServlet {
        //generate password hash using salt value and password text
        String passwordHash = LoginControl.generateHashFromPassword(password, salt);
        
-       //persist user details to database
-       String userAddSql = "insert into users (first_name,last_name,username,email_address,phone,password,salt)"
-               + " values();";
+       //create and persist user details to database
+       User user = new User(fName, lName, email, phone, userName, passwordHash, salt, DEFAULT_USER_TYPE);
+        if(DbRequestService.createUser(connection,user)>0){
+            //redirect to login page
+            request.setAttribute("new_user", fName+" "+lName);
+            String activation = "http://localhost:8080/allexi/login.jsp";
+            request.setAttribute("activation_url", activation);
+            pageAfter = "/confirmation.jsp";
+        }else{
+            //set some error message and redirect to registration page.
+            request.setAttribute("reg_error", "some error occured in your registration");
+            pageAfter = "/registration.jsp";
+        }
+            getServletContext().getRequestDispatcher(pageAfter).forward(request, response);
+        
        
     }
 

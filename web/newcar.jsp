@@ -18,7 +18,7 @@
         <div class="header"></div>
          <%@include file="templates/navigation.jsp" %>
          <%@include  file="templates/dashboard_menu.jsp" %>
-         <form method="POST" action="../newcar" class="form-layout" style="margin-left: 10px; width: 72%;" enctype="multipart/form-data">
+         <form method="POST" action="newcar" class="form-layout" style="margin-left: 10px; width: 72%;" enctype="multipart/form-data">
             <table class="booking">
                 <tbody>
                     <tr ><td colspan="3"><h3>New Car Details</h3></td></tr>
@@ -42,6 +42,7 @@
                                 <option>Mercedes Benz</option>
                                 <option>Jaguar</option>
                                 <option>Range Rover</option>
+                                <option>BMW</option>
                             </select>
                 </td></td>
                 <td><label>Year</label></td>

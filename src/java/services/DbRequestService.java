@@ -273,4 +273,35 @@ public class DbRequestService {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "items in list: "+list.size());
         return list;
     }
+    
+    /** 
+     * Add a new user default is member
+     * @param connection
+     * @param sql
+     * @return 
+     */
+   public static int  createUser(Connection connection, User u){
+       PreparedStatement psUser;
+       int DEFAULT_GROUP = 1;
+       int  resultState =0;
+       String userAddSql = "insert into users (first_name,last_name,username,email_address,phone,password,salt,type)"
+               + " values(?,?,?,?,?,?,?,?);";
+       try{
+       psUser = connection.prepareCall(userAddSql);
+       psUser.setString(1, u.getfName());
+       psUser.setString(2, u.getlName());
+       psUser.setString(3, u.getUserName());
+       psUser.setString(4, u.getEmail());
+       psUser.setString(5, u.getPhone());
+       psUser.setString(6, u.getPassHash());
+       psUser.setString(7, u.getSalt());
+       psUser.setInt(8, DEFAULT_GROUP);
+       resultState = psUser.executeUpdate();
+           Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO,"Result from userAdd: {0}",resultState);
+       
+       }catch(SQLException sqle){
+           Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE,"SQL Error: "+sqle.getLocalizedMessage());
+       }
+       return resultState;
+   }
 }

@@ -15,24 +15,33 @@
     </head>
     <body>
         <div class="header"><h1></h1></div>
-        <%@include file="templates/navigation.jsp" %>
+                <%@include file="templates/navigation.jsp" %>
         <div class="filter-panel">
             <h3>Search Filter</h3>
-            <h4>Model</h4>
-            <input type="checkbox" id ="chk_lexus"/><label for="chk_lexus" style="margin-right: 22%; ">Lexus</label>
-            <input type="checkbox" id ="chk_ford"/><label for="chk_ford">Ford</label><br>
-            <input type="checkbox" id ="chk_mercedes"/><label for="chk_merc" style="margin-right: 10%;">Mercedes</label>
-            <input type="checkbox" id ="chk_bmw"/><label for="chk_bmw">BMW</label><br>
-            <input type="checkbox" id ="chk_audi"/><label for="chk_audi" style="margin-right: 26%; ">Audi</label>
-            <input type="checkbox" id ="chk_chrysler"/><label for="chk_chrysler">Chrysler</label><br>
-            <input type="checkbox" id ="chk_geele"/><label for="chk_geele">Geele</label>
-            <h4>Rates</h4>
-            <input type="range" min="4500" max="25000" name="rate_range" step="4000" value="rate"/>
-            <h4>Features</h4>
-            <input type="checkbox" id ="chk_satnav"/><label for="chk_satnav">Sattelite Navigation</label><br>
-            <input type="checkbox" id ="chk_advent"/><label for="chk_advent">Advanced Entertainment</label><br>
-            <input type="checkbox" id ="chk_chauf"/><label for="chk_chauf">Chauffered</label><br>
-            
+            <table class="booking">
+                <tr>
+                    <td style="background:#666; color:#ffffff" colspan="2">Model</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id ="chk_lexus" value="lexus" onchange="getModel(this.id);"/><label for="chk_lexus">Lexus</label></td>
+                    <td><input type="checkbox" id ="chk_ford" value="ford" onchange="getModel(this.id);"/><label for="chk_lexus">Ford</label></td>
+                <tr>
+                    <td><input type="checkbox" id ="chk_mercedes" value="mercedes" onchange="getModel(this.id);"/><label for="chk_mercedes">Mercedes</label></td>
+                    <td><input type="checkbox" id ="chk_bmw" value="bmw" onchange="getModel(this.id);"/><label for="chk_bmw">BMW</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id ="chk_audi" value="audi" onchange="getModel(this.id);"/><label for="chk_audi">Audi</label></td>
+                    <td><input type="checkbox" id ="chk_geele" value="geele" onchange="getModel(this.id);"/><label for="chk_geele">Geele</label><</td>
+                </tr>
+                <tr>
+                    <td style="background:#666; color:#ffffff" colspan="2">Features</td>
+                </tr>
+                <tr><td><input type="checkbox" id ="chk_satnav" onchange="getModel(this.id);"/><label for="chk_satnav">Telematics</label> </td></tr>
+                <td><input type="checkbox" id ="chk_satnav" onchange="getModel(this.id);"/><label for="chk_satnav">Entertainment</label> </td>
+                <tr><td><input type="checkbox" id ="chk_satnav" onchange="getModel(this.id);"/><label for="chk_satnav">Transmission</label> </td></tr>
+                <tr><td><input type="checkbox" id ="chk_satnav"/><label for="chk_satnav">Capacity</label> </td></tr>
+            </table>
+
             <!--Display panel for all vehicle details-->
         </div>
         <div class="catalog-panel">
@@ -42,7 +51,17 @@
                     <!--call servlet to get the vehicle details-->
                     <a href="details?selected_vehicle=${current.vehicleId}">
                         <img src="fileserver?param1=${current.teaserImg}"/>
-                        <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}<br>${current.status}</div>
+                        <div class="item-info-box">${current.make}, ${current.model}<br>${current.year}<br>
+                            <c:set var="booked" value="booked"/>
+                            <c:choose>
+                                <c:when test= "${current.status == 'booked'}">
+                                    <strong ><c:out value="Booked"/></strong>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${current.status}"/>
+                                </c:otherwise>
+                            </c:choose> 
+                        </div>
                     </a>
                 </div>
             </c:forEach>
@@ -51,9 +70,11 @@
         <%@include file="templates/footer.html" %>
     </body>
     <script>
-        $(document).ready(function (){
-            //replace login text with username/email
-            document.getElementById("login")
-        });
+        
+            function getModel(x){
+        var  selected = document.getElementById(x).value;
+        console.log(selected);
+                
+            }
     </script>
 </html>

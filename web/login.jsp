@@ -15,6 +15,7 @@
     <body>
         <div class="header"><h1></h1></div>
         <%@include file="templates/navigation.jsp" %>
+        <div id="background">
             <div class="login_panel">
             <form action="auth" method="POST">
                 <div class="title_bar"> Login</div>
@@ -23,6 +24,7 @@
                 <input type="password" class="text_box" name="tx_password" placeholder="password"/>
                 <input  type="submit" class="btn"  id="btn_login" value="Login"/>
             </form>
+        </div>
         </div>
        <%@include file="templates/footer.html" %>
     </body>

@@ -22,6 +22,7 @@ public class User {
     private String phone;
     private String type;
     
+
     public User(){
         
     }
@@ -34,6 +35,7 @@ public class User {
         this.fName = fName;
         this.lName = lName;
         this.email = email;
+        this.userName = userName;
         this.phone = phone;
         this.type = type;
         this.passHash = passHash;
@@ -166,6 +168,22 @@ public class User {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    /**
+     * @return the salt
+     */
+    public String getSalt() {
+        return salt;
+    }
+
+    /**
+     * @param salt the salt to set
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+
     
     
     
