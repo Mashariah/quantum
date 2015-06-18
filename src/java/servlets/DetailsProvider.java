@@ -41,8 +41,7 @@ public class DetailsProvider extends HttpServlet {
 //        Logger.getLogger(DetailsProvider.class.getName()).log(Level.INFO, desc.getEntertainment());
         request.getSession().setAttribute("description", desc); //make object available accross this user session
         request.setAttribute("vehicleId", desc.getVehicleId());// for forwarding to the details.jsp image server...
-       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/details.jsp");
-       dispatcher.forward(request, response);
+       getServletContext().getRequestDispatcher("/details.jsp").forward(request, response);
         
 
     }

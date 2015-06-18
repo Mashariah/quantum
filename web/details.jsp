@@ -140,10 +140,12 @@
                 else {
                     xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
                 }
-                //when ze response arrives...
+               
+               //at every state change of xhr...
                 xmlHttpRequest.onreadystatechange = function() {
+                //get the current state of the xhr object i.e. 0,1,2,3,4
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
-                        var response = xmlHttpRequest.responseText; //server results
+                        var response = xmlHttpRequest.responseText; //server results as palin text
                         console.log("response="+response);
                         var jsResponseObj = JSON.parse(response);
                         document.getElementById("td_duration").innerHTML=
@@ -152,7 +154,7 @@
                                 "<h5>Amount: Ksh "+jsResponseObj.amount+"</h5>";
 
                     }
-                }
+                };
 //                xmlHttpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlHttpRequest.open("GET", url, true); //send using post to servlet charges
                 xmlHttpRequest.send(null);                        

@@ -9,3 +9,41 @@
         <param-name>dbpass</param-name>
         <param-value>bluehair123</param-value>
     </context-param>
+
+//errorfull ajax?
+ //create XMLHtttp object (Mozilla, Chrome & Safari)
+            if (window.XMLHttpRequest) {
+                xmlHttpRequest = new XMLHttpRequest();
+                console.log("created the xmlHttpRequest object");
+            }
+            //...IE5 and IE6 
+            else {
+                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                console.log("created the xmlHttpRequest using activeX object");
+            }
+
+            //when the response arrives....
+            XMLHttpRequest.onreadystatechange = function(){
+                if(XMLHttpRequest.readyState < 4){
+                    document.getElementById('category-panel').innerHTML ="Loading...";
+                }
+                else if (xmlhttpRequest.readyState === 4 && XMLHttpRequest.status === 200) {
+                    var response = XMLHttpRequest.responseText;
+                    console.log("Response: " + response);
+
+                    var jsObject = JSON.parse(response); //parse the json array response to an object
+                    console.log("javascript obj created after parsing..." + jsObject);
+
+                    //iterate the json array of vehiclees and place each on the page 
+                        formatAndDisplay(jsObject);
+                }
+            };
+             xmlHttpRequest.open("GET", url, true); //send using post to servlet charges
+                xmlHttpRequest.send();   
+        
+        erate the json array of vehiclees and place each on the page 
+                        formatAndDisplay(jsObject);
+                }
+            };
+             xmlHttpRequest.open("GET", url, true); //send using post to servlet charges
+                xmlHttpRequest.send();   

@@ -44,10 +44,10 @@
 
             <!--Display panel for all vehicle details-->
         </div>
-        <div class="catalog-panel" id="catalog-panel">
+        <div class="catalog-panel" id="category-panel">
             <!--call servlet to retrieve image files-->
             <c:forEach items ="${vehicles}"  var="current">
-                <div class="catalog-item" id="catalog-item">
+                <div class="catalog-item" id="category-item">
                     <!--call servlet to get the vehicle details-->
                     <a href="details?selected_vehicle=${current.vehicleId}">
                         <img src="fileserver?param1=${current.teaserImg}"/>
@@ -97,8 +97,8 @@ var jsResponseObj ;
                         var response = xmlHttpRequest.responseText; //server results as palin text
                         console.log("Json received array: "+response);
                        jsResponseObj = JSON.parse(response);
-                       console.log(jsResponseObj[0].detailImg);
-                                              console.log(jsResponseObj[0].model);
+                       log.console(jsResponse[0].detailImg);
+                                              log.console(jsResponse[0].model);
                         formatAndDisplay(jsResponseObj);
                     }
                 };
@@ -110,31 +110,24 @@ var jsResponseObj ;
         function formatAndDisplay(jsObj) {
             console.log("Entering the format method...");
 //            //reset/clear the exiting 'category-panel' div for the new results
-            //var targetDiv = document.getElementById('catalog-panel');
-           // targetDiv.innerHTML = jsResponseObj[0].detailImg;
-//            console.log("cleared the main parent div");
-
-
-//get the list of of div with class names : 'category-item' and 'item-info-box'
-                var items = document.getElementsByClassName("catalog-item");
-                var infoBoxes = document.getElementsByClassName("item-info-box");
-                console.log("Items of div catalog-item = "+items.length);
-                console.log("Items in div info-boxes = "+infoBoxes.length);
-                var catalogPanel = document.getElementById("catalog-panel");
-                var newPanel = document.createElement('div');
-                newPanel.setAttribute('class','catalog-panel');
-           for(i=0;i<jsResponseObj.length;i++){
-                infoBoxes[i].innerHTML = jsResponseObj[i].make+", "+jsResponseObj[i].model+"<br>"+
-                        jsResponseObj[i].year+"<br>"+ jsResponseObj[i].status;
+            var targetDiv = document.getElementById('category-panel');
+            targetDiv.innerHTML = jsResponseObj[0].detailImg;
+            console.log("cleared the main parent div");
+//            //create a 'catalog-item' div for each item in the json array
+//            for(i=0;i<jsResponseObj.length;i++){
+                console.log("object #:"+jsResponseObj[i].detailImg);
+//                var infoBox = document.createElement("item-info-box");
+//                infoBox.innerHTML = jsResponseObj[i].make+", "+jsResponseObj[i].model+"<br>"+
+//                        jsResponseObj[i].year+"<br>"+ jsResponseObj[i].status;
 //                
-                var imageId = jsResponseObj[i].teaserImg;
-                items[i].innerHTML ="<a href=details?selected_vehicle=\""+jsResponseObj[i].vehicle_id+"\"><img src=fileserver?param1="+imageId+"/></a>";
-                items[i].appendChild(infoBoxes[i]);
-                newPanel.appendChild(items[i]);
+//                var item = document.createElement("category-item");
+//                item.innerHTML ="<a href=details?selected_vehicle="+jsResponseObj[i].vehicle_id+">\n\
+//                <img src=fileserver?param1="+jsResponseObj[i]teaserImg+"</a>";
+//                item.appendChild(infoBox);
+//                targetDiv.appendChild(item);
             }
-            //replace the entire panel with results..
-            document.getElementById("catalog-panel").parentNode.replaceChild(newPanel,catalogPanel);
-
+            //
+            //add onject data to div
             }        
         
 
