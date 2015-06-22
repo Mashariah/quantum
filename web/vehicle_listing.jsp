@@ -29,9 +29,9 @@
                         <td>Registration: ${vehicle.registrationNumber}<br>Make: ${vehicle.make}<br>Model: ${vehicle.model}<br>Color: ${vehicle.color}</td></td>
                         <td><strong>Rates</strong> <br>Hourly: ${vehicle.rateModel.hourlyCharge}<br>Daily: ${vehicle.rateModel.dailyCharge}<br>Weekly: ${vehicle.rateModel.weeklyCharge}</td></td>
                         <td>
-                            <a href="v_details?target=${vehicle.vehicleId}">view details</a><br>
-                            <a href="v_editor?target=${vehicle.vehicleId}">edit</a><br>
-                            <a href="v_delete?target=${vehicle.vehicleId}">delete</a><br>
+                            <!--<a href="v_details?target=">view details</a><br>-->
+                            <a href="v_editor?target=${vehicle.vehicleId}">edit</a>
+                            <a href="v_delete?target=${vehicle.vehicleId}">&nbsp;&nbsp;delete</a><br>
                         </td>
                     </tr>
                 </c:forEach>

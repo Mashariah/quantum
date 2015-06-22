@@ -102,9 +102,11 @@ public class DateCalc {
         System.out.println("Hour: "+hour);
         System.out.println("Minute: "+minute);
         
-        SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("YYYY");
         String result = df.format(calendar.getTime());
+        String result2 = df.format(new Date());
         System.out.println("Year after format: "+result);
+        System.out.println("Year2 after format: "+result2);
         
         
 //        

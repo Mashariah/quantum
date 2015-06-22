@@ -13,13 +13,15 @@ import domain.User;
 import domain.Vehicle;
 import domain.VehicleDescription;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +39,9 @@ public class DbRequestService {
 
     public static ArrayList<Vehicle> processQueryRequest(Connection connection, String sql) {
         try {
+            
+            SimpleDateFormat df = new SimpleDateFormat("YYYY");
+            
             vehicleList = new ArrayList<>();
             statement = connection.createStatement();
             results = statement.executeQuery(sql);
@@ -46,7 +51,7 @@ public class DbRequestService {
                 String make = results.getString("make");
                 String model = results.getString("model");
                 String color = results.getString("color");
-                String  year = results.getString("_year");
+                String  year = df.format(results.getDate("_year"));
                 String teaserImgFile = results.getString("teaser_img");
                 String detailImgFile = results.getString("detail_img");
                 String thumbnail1File = results.getString("thumbnail1_img");
@@ -395,19 +400,27 @@ public class DbRequestService {
     */
     public static Vehicle editVehicle(Connection conn, String sql){
         
+//        Calendar calendar = new GregorianCalendar();
+        SimpleDateFormat df = new SimpleDateFormat("YYYY");
         Vehicle targetVehicle = null;
         try {
             statement = conn.createStatement();
             results = statement.executeQuery(sql);
             //expecting 1 result in the set
             while(results.next()){
+                
+                //work on the year formatting
+                Date carYear = results.getDate("_year");
+                String year = df.format(carYear);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Year after format is:  {0}",year);
                 //recreate the vehicle and its description
                 targetVehicle = new Vehicle(results.getInt("vehicle_id"),
                         results.getString("registration_num"),
                         results.getString("make"),
                         results.getString("model"),
                         results.getString("color"),
-                        String.valueOf(results.getDate("_year")),
+                        year,
+//                        String.valueOf(results.getDate("_year")),
                         results.getString("teaser_img"),
                         results.getString("detail_img"),
                         results.getString("thumbnail1_img"),
@@ -436,7 +449,7 @@ public class DbRequestService {
         boolean success = false;
         //update vehicle
         String vehicleUpdateSql ="update  cars set registration_num= '"+v.getRegistrationNumber()+"',make='"+v.getMake()
-        + "',model='"+v.getModel()+"',_year=2015  where cars.vehicle_id ="+v.getVehicleId();
+        + "',model='"+v.getModel()+"',_year='"+v.getYear()+"'  where cars.vehicle_id ="+v.getVehicleId();
             Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "vehicles update sql ={0},",vehicleUpdateSql);
         //update vehicle description 
             VehicleDescription vd = v.getDescription();
