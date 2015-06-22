@@ -32,7 +32,7 @@
                 ArrayList <Vehicle> vehicles = (ArrayList)request.getSession().getAttribute("vehicles");
                 for(Vehicle v:vehicles){
                     if(v.getVehicleId()==vId){
-                        //create this vehicle as an attribute ...
+                        //create the currently selected vehicle as an attribute ...
                         getServletContext().setAttribute("target_vehicle", v);
                     }
                 }
@@ -42,11 +42,9 @@
             <img src="fileserver?param1=${target_vehicle.thumbnail1Img}">
         </div>
         <div class="details-panel-description">
-            <strong>${target_vehicle.make} ${target_vehicle.model}</strong>
+            <strong>${target_vehicle.make} ${target_vehicle.model} Details</strong>
             <hr>
             <!--Get the id of the selected vehicle and retrieve its details from the vehicle list-->
-            
-            <!--<p></p>-->
             <table>
                 <tbody>
                     <tr><td><h4>Fuel Consumption</h4></td><td>${description.fuelConsumption} Litres per Kilometer</td></tr>
@@ -68,14 +66,14 @@
                 <table class="booking">
                 <tbody>
                     <tr><td><h4>Hourly: </h4>${target_vehicle.rateModel.hourlyCharge}</td>
-                        <td><h4>Daily: </h4>${target_vehicle.rateModel.dailyCharge}</td>
-                        <td><h4>Weekly: </h4>${target_vehicle.rateModel.weeklyCharge}</td></tr>
+                        <td><h4>Daily  (8 hours)</h4>${target_vehicle.rateModel.dailyCharge}</td>
+                        <td><h4>Weekly (7 days) </h4>${target_vehicle.rateModel.weeklyCharge}</td></tr>
                     <tr>
                         <td >Select rate type</td>
                         <td colspan="2"><select name="calcOption" id="calcOption">
                                 <option value="hourly">Hourly ${target_vehicle.rateModel.hourlyCharge}</option>
-                                <option  value="daily">Daily: ${target_vehicle.rateModel.dailyCharge}</option>
-                                <option  value="weekly">Weekly: ${target_vehicle.rateModel.weeklyCharge}</option>
+                                <option  value="daily">Daily ${target_vehicle.rateModel.dailyCharge}</option>
+                                <option  value="weekly">Weekly:  ${target_vehicle.rateModel.weeklyCharge}</option>
                             </select></td>
                     </tr>
                     <tr>
@@ -97,8 +95,9 @@
                     <tr>
                         <td id="td_amount" colspan="4" style="text-align: right;"><h4>Amount:</h4></td></td>
                     </tr>
-                    <tr><td colspan="4"><a href="booking.jsp"><button id="back" >Book Now</button></a>
-                            <button id="back" type="submit" value="catalog" >Back</button></td></tr>
+                    <tr><td colspan="4">
+                            <a href="booking.jsp"><button id="back" >Book Now</button></a>
+                            <a href="catalog"><button id="back" type="submit" value="catalog" >Back</button></a></td></tr>
                 </tbody>
             </table>
             <!--</form>-->

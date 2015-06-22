@@ -73,6 +73,18 @@
         <servlet-name>CatalogFilter</servlet-name>
         <servlet-class>servlets.CatalogFilter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserBooking</servlet-name>
+        <servlet-class>servlets.UserBooking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VehicleEditor</servlet-name>
+        <servlet-class>servlets.VehicleEditor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditVehicle</servlet-name>
+        <servlet-class>servlets.UpdateVehicleDetails</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
         <url-pattern>/auth</url-pattern>
@@ -128,6 +140,18 @@
     <servlet-mapping>
         <servlet-name>CatalogFilter</servlet-name>
         <url-pattern>/cfilter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserBooking</servlet-name>
+        <url-pattern>/mybooking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VehicleEditor</servlet-name>
+        <url-pattern>/v_editor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditVehicle</servlet-name>
+        <url-pattern>/updatecar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

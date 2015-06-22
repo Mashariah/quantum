@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
          * Check if user is logged in if not redirect to login page ...else 
          * 
          */
-        User u = (User)request.getSession(false).getAttribute("user");
+        User u = (User)request.getSession().getAttribute("user");
         if(u==null){
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);

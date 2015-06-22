@@ -8,7 +8,9 @@ package services;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import servlets.ChargesCalculator;
@@ -70,17 +72,51 @@ public class DateCalc {
             return date;
     }
     
+    private static Date getYear(String date){
+    Date carYear = null;
+    SimpleDateFormat df = new SimpleDateFormat();
+        try {
+            carYear = df.parse(date);
+            Logger.getLogger("DateTest").log(Level.INFO, "Year in given date is {0}",carYear);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger("DateTest").log(Level.SEVERE, null, ex);
+        }
+        return carYear;
+}
+    
     public static void main(String[] args) {
-        String then = "02/02/15 23:45";
-        String now = "22/03/15 23:45";
+//        String then = "02/02/15 23:45";
+//        String now = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+//        System.out.println("Now is: "+now);
         
-       Date d1 = stringToDate(then);
-        System.out.println("Date 1: "+formatDate(d1));
-       Date d2 = stringToDate(now);
-        System.out.println("Date 2: "+formatDate(d2));
-
-        System.out.println(getDays(compareDates(d1, d2))+" days");
-        System.out.println(getHours(compareDates(d1, d2))+" hours");
-        System.out.println(getWeeks(compareDates(d1, d2))+" weeks");
+        Calendar calendar = new GregorianCalendar();
+        
+        calendar.set(Calendar.YEAR, 2013);
+        int year = calendar.get(Calendar.YEAR);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        System.out.println("Year: "+year);
+        System.out.println("Day of week:: "+day);
+        System.out.println("Hour: "+hour);
+        System.out.println("Minute: "+minute);
+        
+        SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+        String result = df.format(calendar.getTime());
+        System.out.println("Year after format: "+result);
+        
+        
+//        
+//       Date d1 = stringToDate(then);
+//        System.out.println("Date 1: "+formatDate(d1));
+//       Date d2 = stringToDate(now);
+//        System.out.println("Date 2: "+formatDate(d2));
+//
+//        System.out.println(getDays(compareDates(d1, d2))+" days");
+//        System.out.println(getHours(compareDates(d1, d2))+" hours");
+//        System.out.println(getWeeks(compareDates(d1, d2))+" weeks");
+        
+//        getYear(now);
     }
 }

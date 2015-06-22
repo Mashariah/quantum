@@ -34,6 +34,7 @@ public class Authenticate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String menuItem  ="";
         boolean valid = false;
         int userId = 0;
         String retrievedEmailAddr = "";
@@ -56,7 +57,7 @@ public class Authenticate extends HttpServlet {
          * retrieved salt value 4. Compare the generated hash to the retrieved
          * hash
          */
-        String sql = "select * from users where email_address = '" + userName + "'";
+        String sql = "select * from users where email_address = '" + userName+"'";
         Logger.getLogger(Authenticate.class.getName()).log(Level.INFO, "sql statement", sql);
 
         try {
@@ -97,11 +98,15 @@ public class Authenticate extends HttpServlet {
                     + session.getAttribute("user").toString());
             
             //determine if user is ordinary user or admin
-            if (user.getType().equals("user")) {
+            if (user.getType().equals("member")) {
+                menuItem = "MyBookings";
+                request.getSession().setAttribute("menu_item", menuItem);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog");
                 dispatcher.forward(request, response);
-            } else {
+            } else if(user.getType().equals("admin")) {
                 //redirect admin user to admin page...
+                menuItem = "Dashboard";
+                request.getSession().setAttribute("menu_item", menuItem);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/vlisting");
                 dispatcher.forward(request, response);
             }

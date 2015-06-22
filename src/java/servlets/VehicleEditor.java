@@ -1,50 +1,54 @@
 /*
  * Copyright 2015
  *  http://wazza.co.ke
- * 7:43:49 AM  : Jun 10, 2015
+ * 10:55:49 AM  : Jun 20, 2015
  */
 
 package servlets;
 
+import domain.Vehicle;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.DbRequestService;
 
 /**
  *
  * @author kelli
  */
-public class Logout extends HttpServlet {
+public class VehicleEditor extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-           
-        Object userSession = request.getSession().getAttribute("user");
-        if(userSession!=null){
-            Logger.getLogger(Logout.class.getName()).log(Level.INFO, "Logging out...");
-            //invalidate session and return user to homepage
-            request.getSession(false).invalidate();
             
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-            requestDispatcher.forward(request, response);
+        /** 
+         * 1. Get the selected vehicle 
+         * 2. Issue query for all details of the selected vehicle 
+         * 3. Populate the editcar.jsp with details of the selected vehicle.
+         */
+        Connection  connection = (Connection)getServletContext().getAttribute("connector");
+        int targetVehicle = Integer.parseInt(request.getParameter("target"));
+        
+        //gets all the details of the selected vehicle and create representative vehicle object
+        String selectedVehicleSql = "select * from cars join car_features on cars.vehicle_id=car_features.vehicle_id and"
+                + " cars.vehicle_id="+targetVehicle;
+        Vehicle vehicle = DbRequestService.editVehicle(connection, selectedVehicleSql);
+        
+        if(vehicle!=null){
+            request.setAttribute("target_vehicle",vehicle);
         }else{
-            Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, "Error logging out of session");
+            //unlikely...but no vehicle with that id..yet selected?
+            Logger.getLogger(VehicleEditor.class.getName()).log(Level.INFO, "vehicle is somehow null");
+            return;
         }
+//        populate the editcar form with the vehicle object attributes
+        getServletContext().getRequestDispatcher("/editcar.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

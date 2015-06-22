@@ -19,23 +19,25 @@
         <div class="header"></div>
          <%@include file="templates/navigation.jsp" %>
          <%@include  file="templates/dashboard_menu.jsp" %>
-         <table class="booking" style="width: 76%; background:#ffffff; margin-left:10px; padding: 5px;">
-                <tbody>
+         <div class="catalog-panel" >
+         <table class="booking" style="width: 100%;">
+             <tbody >
                     <tr ><td colspan="3"><h3>Vehicles Listing</h3></td></tr>
                 <c:forEach items ="${vehicles}" var="vehicle">
                     <tr>
-                        <td> <img src="fileserver?param1=${vehicle.thumbnail1Img}" height="70px" width="90px"/></td>
+                        <td> <img src="fileserver?param1=${vehicle.thumbnail1Img}" height="70px" width="130px"/></td>
                         <td>Registration: ${vehicle.registrationNumber}<br>Make: ${vehicle.make}<br>Model: ${vehicle.model}<br>Color: ${vehicle.color}</td></td>
                         <td><strong>Rates</strong> <br>Hourly: ${vehicle.rateModel.hourlyCharge}<br>Daily: ${vehicle.rateModel.dailyCharge}<br>Weekly: ${vehicle.rateModel.weeklyCharge}</td></td>
                         <td>
-                            <a href="">view details</a><br>
-                            <a href="">edit</a><br>
-                            <a href="">delete</a><br>
+                            <a href="v_details?target=${vehicle.vehicleId}">view details</a><br>
+                            <a href="v_editor?target=${vehicle.vehicleId}">edit</a><br>
+                            <a href="v_delete?target=${vehicle.vehicleId}">delete</a><br>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
          </table>
+         </div>
                   <%@include file="templates/footer.html" %>
     </body>
 </html>

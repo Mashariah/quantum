@@ -24,7 +24,7 @@ public class Vehicle {
     private String make;
     private String model;
     private String color;
-    private Date year;
+    private String  year;
 //    private String features;
     private String teaserImg;
     private String detailImg;
@@ -32,12 +32,14 @@ public class Vehicle {
     private String thumbnail2Img;
     private String thumbnail3Img;
     private RateModel rateModel;
+    //description injected in vehicle edit..
+    private VehicleDescription description;
     private String status;
 
     public Vehicle(){
         
     }
-    public Vehicle(int vId,String regNum,String make,String model,String color,Date year,
+    public Vehicle(int vId,String regNum,String make,String model,String color,String year,
             String teaserImg, String detailImg,String thumnail1Img,String thumnail2Img,String thumnail3Img){
         this.vehicleId = vId;
         this.registrationNumber = regNum;
@@ -53,16 +55,27 @@ public class Vehicle {
         this.thumbnail3Img = thumnail3Img;
        }
     
+    //a constructor for updating vehicle details...
+    public Vehicle(int vehicleId,String regNum,String make,String model,String year,VehicleDescription desc){
+        this.vehicleId = vehicleId;
+        this.registrationNumber = regNum;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.description = desc;
+       }
+    
     //create new vehicles from form...attach images using getset
     public Vehicle(String regNum,String make,String model,String  year){
         this.registrationNumber = regNum;
         this.make = make;
         this.model = model;
         this.color="Black";
-        SimpleDateFormat sdf = new SimpleDateFormat("yy");
-        try{
-        this.year = sdf.parse(year);
-        }catch(ParseException pxe){System.out.println("Parse exception occured");}
+        this.year = year;
+//        SimpleDateFormat sdf = new SimpleDateFormat("yy");
+//        try{
+//        this.year = sdf.parse(year);
+//        }catch(ParseException pxe){System.out.println("Parse exception occured");}
     }
     
     public void setRateModel(RateModel model){
@@ -147,14 +160,14 @@ public class Vehicle {
     /**
      * @return the year
      */
-    public Date getYear() {
+    public String  getYear() {
         return year;
     }
 
     /**
      * @param year the year to set
      */
-    public void setYear(Date year) {
+    public void setYear(String year) {
         this.year = year;
     }
 //
@@ -254,6 +267,20 @@ public class Vehicle {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the description
+     */
+    public VehicleDescription getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(VehicleDescription description) {
+        this.description = description;
     }
 
    

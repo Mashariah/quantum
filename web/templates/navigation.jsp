@@ -19,6 +19,7 @@
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalog">Catalog</a></li>
                 <li><a href="booking.jsp">Booking</a></li>
+                <li><a href="mybooking">${menu_item}</a>
 
                 <li id="login_anchor">
                     <a id="a_login" href="login">

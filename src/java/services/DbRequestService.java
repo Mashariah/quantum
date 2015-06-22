@@ -6,6 +6,7 @@
 package services;
 
 import domain.Booking;
+import domain.BookingDetails;
 import domain.RateModel;
 import domain.TrackingDescription;
 import domain.User;
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,7 @@ public class DbRequestService {
                 String make = results.getString("make");
                 String model = results.getString("model");
                 String color = results.getString("color");
-                Date year = results.getDate("_year");
+                String  year = results.getString("_year");
                 String teaserImgFile = results.getString("teaser_img");
                 String detailImgFile = results.getString("detail_img");
                 String thumbnail1File = results.getString("thumbnail1_img");
@@ -57,7 +59,7 @@ public class DbRequestService {
                 Double hourly = results.getDouble("hourly_charge");
                 Double weekly = results.getDouble("weekly_charge");
 
-                RateModel rm = new RateModel(daily, hourly, weekly);
+                RateModel rm = new RateModel(hourly, daily, weekly);
                 Vehicle current = new Vehicle(vehicleId, reg_num, make, model, color, year,
                         teaserImgFile, detailImgFile, thumbnail1File, thumbnail2File, thumbnail3File);
                 //set the rate model on vehicle
@@ -330,7 +332,7 @@ public class DbRequestService {
                     String make = results.getString("make");
                     String model = results.getString("model");
                     String color = results.getString("color");
-                    Date year = results.getDate("_year");
+                    String  year = String.valueOf(results.getDate("_year").getYear());
                     String teaserImgFile = results.getString("teaser_img");
                     String detailImgFile = results.getString("detail_img");
                     String thumbnail1File = results.getString("thumbnail1_img");
@@ -358,5 +360,102 @@ public class DbRequestService {
         }
 
         return filteredResults;
+    }
+    
+    //
+    public static BookingDetails getUserBooking(Connection connection,String sql){
+        BookingDetails details = null;
+        Booking b = new Booking();
+        Vehicle v = new Vehicle();
+        User u = new User();
+        try{
+            results = connection.createStatement().executeQuery(sql);
+            while(results.next()){
+               b.setDtPickup(results.getString("dt_pickup"));
+               b.setDtDropoff(results.getString("dt_dropoff"));
+               b.setdLocation(results.getString("d_location"));
+               b.setpLocation(results.getString("p_location"));
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Adding to booking detail...");
+               
+               //vehicle 
+               v.setMake(results.getString("make"));
+               v.setModel(results.getString("model"));
+               v.setTeaserImg(results.getString("teaser_img"));
+               v.setRegistrationNumber(results.getString("registration_num"));
+               details= new BookingDetails(b, v);
+            }
+        } catch (SQLException sqe){
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "SQL Error in getting booking details: {0}", sqe.getLocalizedMessage());
+                    }
+        return details;
+    }
+    
+    /* 
+    Edit details of a selected vehicle
+    */
+    public static Vehicle editVehicle(Connection conn, String sql){
+        
+        Vehicle targetVehicle = null;
+        try {
+            statement = conn.createStatement();
+            results = statement.executeQuery(sql);
+            //expecting 1 result in the set
+            while(results.next()){
+                //recreate the vehicle and its description
+                targetVehicle = new Vehicle(results.getInt("vehicle_id"),
+                        results.getString("registration_num"),
+                        results.getString("make"),
+                        results.getString("model"),
+                        results.getString("color"),
+                        String.valueOf(results.getDate("_year")),
+                        results.getString("teaser_img"),
+                        results.getString("detail_img"),
+                        results.getString("thumbnail1_img"),
+                        results.getString("thumbnail2_img"),
+                        results.getString("thumbnail3_img"));
+                //the description 
+                VehicleDescription description = new VehicleDescription(results.getInt("vehicle_id"),
+                        results.getString("fuel_consumption"),
+                        results.getString("fuel_capacity"),
+                        results.getString("transmission"),
+                        results.getInt("seating_cap"),
+                        results.getString("convinience"),
+                        results.getString("safety_security"),
+                        results.getString("entertainment"),
+                        results.getString("telematics"),
+                        results.getString("tire_wheels"));
+                        targetVehicle.setDescription(description);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in edit sql"+ex.getMessage());
+        }
+        return targetVehicle;
+    }
+    
+    public static boolean updateVehicleDetails(Connection c, Vehicle v){
+        boolean success = false;
+        //update vehicle
+        String vehicleUpdateSql ="update  cars set registration_num= '"+v.getRegistrationNumber()+"',make='"+v.getMake()
+        + "',model='"+v.getModel()+"',_year=2015  where cars.vehicle_id ="+v.getVehicleId();
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "vehicles update sql ={0},",vehicleUpdateSql);
+        //update vehicle description 
+            VehicleDescription vd = v.getDescription();
+        String  descriptionUpdateSql = "update  car_features set fuel_consumption='"+vd.getFuelConsumption()+
+                "',fuel_capacity='"+vd.getFuelCapacity()+"',transmission='"+vd.getTransmission()+"',seating_cap="+vd.getSeatingCapacity()
+                +",convinience='"+vd.getConvinience()+"',safety_security='"+vd.getSafetyAndSecurity()+"',entertainment='"+vd.getEntertainment()
+                +"',telematics='"+vd.getTelematics()+"',tire_wheels='"+vd.getTireWheels()+"' where car_features.vehicle_id ="+v.getVehicleId();;
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "desc update sql ={0}",descriptionUpdateSql);
+        try{
+        statement = c.createStatement();
+        int vehiclesUpdated = statement.executeUpdate(vehicleUpdateSql);
+        int  descriptionsUpdates = statement.executeUpdate(descriptionUpdateSql);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "vehiclesUpdate ="+vehiclesUpdated);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "descriptionUpdate ="+descriptionsUpdates);
+            success = true;
+        }catch(SQLException sqle){
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in executing update sql"+sqle.getMessage());
+            
+        }
+        return success;
     }
 }

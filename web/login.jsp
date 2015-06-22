@@ -15,13 +15,13 @@
     <body>
         <div class="header"><h1></h1></div>
         <%@include file="templates/navigation.jsp" %>
-        <div id="background">
+        <div id="confirmation-bg">
             <div class="login_panel">
             <form action="auth" method="POST">
                 <div class="title_bar"> Login</div>
                 <div style="color: #ff0000; font-size: small; font-family: sans-serif; margin:3px;">${error}</div>
-                <input type="text" class="text_box" name="tx_user" placeholder="email address"/>
-                <input type="password" class="text_box" name="tx_password" placeholder="password"/>
+                <input type="text" class="text_box" name="tx_user" placeholder="Email Address or User Name"/>
+                <input type="password" class="text_box" name="tx_password" placeholder="Password"/>
                 <input  type="submit" class="btn"  id="btn_login" value="Login"/>
             </form>
         </div>
