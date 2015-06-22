@@ -85,6 +85,10 @@
         <servlet-name>EditVehicle</servlet-name>
         <servlet-class>servlets.UpdateVehicleDetails</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VehicleDelete</servlet-name>
+        <servlet-class>servlets.VehicleDelete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
         <url-pattern>/auth</url-pattern>
@@ -152,6 +156,10 @@
     <servlet-mapping>
         <servlet-name>EditVehicle</servlet-name>
         <url-pattern>/updatecar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VehicleDelete</servlet-name>
+        <url-pattern>/v_delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

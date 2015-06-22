@@ -471,4 +471,16 @@ public class DbRequestService {
         }
         return success;
     }
+    
+    public static int deleteVehicle(Connection c, String deleteSql){
+        int state = 0;
+        try {
+            statement = c.createStatement();
+             state = statement.executeUpdate(deleteSql);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Deleting state...{0}",state);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in deleting vehicle...{0}",ex.getMessage());
+        }
+        return state;
+    }
 }

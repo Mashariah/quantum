@@ -128,7 +128,7 @@ var jsResponseObj ;
                         jsResponseObj[i].year+"<br>"+ jsResponseObj[i].status;
 //                
                 var imageId = jsResponseObj[i].teaserImg;
-                items[i].innerHTML ="<a href=details?selected_vehicle=\""+jsResponseObj[i].vehicle_id+"\"><img src=fileserver?param1="+imageId+"/></a>";
+                items[i].innerHTML ="<a href=details?selected_vehicle="+jsResponseObj[i].vehicleId+"><img src=fileserver?param1="+imageId+"/></a>";
                 items[i].appendChild(infoBoxes[i]);
                 newPanel.appendChild(items[i]);
             }

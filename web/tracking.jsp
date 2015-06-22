@@ -58,6 +58,7 @@
          <div id="tracking-map-canvas">
          </div>
          <div id="tracking-panel">
+         </div>
              <table class="booking">
                  <tbody>
                      <tr>
