@@ -10,12 +10,60 @@ Copyright 2015
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style/core.css"/>
+        
+        <style>
+/*            .nav ul li{
+                display: inline-block;
+            }*/
+.nav ul {
+	background: #efefef; 
+	padding: 0 20px;
+	border-radius: 10px;  
+	list-style: none;
+	position: relative;
+	display: inline-table;
+}
+
+.nav ul li{
+    float: left;
+}
+
+.nav ul li hover{
+    color: #ffffff;
+}
+
+.nav ul li a {
+    display: block; padding: 7px 10px;
+    color: #757575; text-decoration: none;
+}
+            
+            .nav ul ul{
+               display: none;
+            }
+            
+            .nav ul li:hover >ul{
+                display: block;
+            }
+        </style>
     </head>
-    <body>
-        <div class="header"><h1>allexi.com</h1></div>
-        <div><p>This is the test page for the core css file</p></div>
-    <script>
-        console.log("Logging ok...");
-    </script>
-    </body>
+    Dropdown menu
+    <div class="nav">
+        <ul>
+            <li><a href="home">Home</a></li>
+            <li><a href="about">About Us</a></li>
+            <li><a href="description">Description</a>
+                <ul>
+                    <li><a href="email">Email</a></li>
+                    <li><a href="chat">Chat</a>
+                        <ul>
+                            <li><a href="">Live</a></li>
+                            <li><a href="">Autobot</a></li>
+                        </ul></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+</body>
 </html>

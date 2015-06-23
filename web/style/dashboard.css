@@ -1,0 +1,63 @@
+/*
+Copyright 2015
+ http://wazza.co.ke
+9:30:50 PM  : Jun 22, 2015
+*/
+/* 
+    Created on : Jun 22, 2015, 9:30:50 PM
+    Author     : kelli
+*/
+
+*>.dashboard-menu-panel{
+    font-family: Roboto, Courier;
+    padding: 0px;
+    margin:0px;
+    font-weight: bold;
+    color:#003333;
+    font-size:0.9em;
+}
+
+.dashboard-menu-panel{
+    margin-top: 5px;
+    position: relative;
+    float: left;
+    width: 200px;
+    height:500px;;
+    padding: 0px;
+    background: #aaa;
+    list-style: none;
+
+}
+
+.dashboard-menu-panel ul li{
+    list-style: none;
+}
+
+.dashboard-menu-panel ul li a{
+    display: block;
+    margin-bottom: 5px;
+    padding: 0px 5px 0px 15px;
+    text-decoration: none;
+    color: #003333;
+   /*border-bottom:  solid thin #fbf9ee;*/
+   
+}
+
+.dashboard-menu-panel ul ul{
+   display: none;
+   
+}
+
+.dashboard-menu-panel ul li:hover >ul{
+    display: block;
+}
+
+.dashboard-menu-panel ul  li > ul{
+    margin-left: 20px;
+    
+    
+}
+.dashboard-menu-panel a:hover{
+    background: #fbf9ee;
+}
+

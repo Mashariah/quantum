@@ -12,13 +12,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title></title>
         <script src="js/jquery-1.11.3.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="style/core.css"/>
+        <link rel="stylesheet" type="text/css" href="style/dashboard.css"/>
     </head>
     <body>
         <div class="dashboard-menu-panel">
-            <a href="vlisting">Vehicles</a>
-            <a href="tracklist?id=bookings">Bookings</a>
-            <a href="tracklist?id=track">Tracking</a>
+            <ul>
+                <li><a href="">Vehicles</a>
+                    <ul>
+                        <li><a href="vlisting">Listing</a></li>
+                        <li><a href="newcar.jsp">Add New</a></li>
+                    </ul>
+                </li>
+                <li><a href="tracklist?id=bookings">Booking</a></li>
+                <li><a href="tracking.jsp">Tracking</a></li>
+            </ul>
         </div>
     </body>
 </html>

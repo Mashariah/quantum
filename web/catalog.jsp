@@ -18,7 +18,8 @@
                 <%@include file="templates/navigation.jsp" %>
         <div class="filter-panel">
             <h3>Search Filter</h3>
-            <table class="booking">
+            <div class="panel">
+            <table>
                 <tr>
                     <td style="background:#666; color:#ffffff" colspan="2">Model</td>
                 </tr>
@@ -41,7 +42,7 @@
                 <tr><td><input type="checkbox" id ="chk_satnav" onchange=""/><label for="chk_satnav">Transmission</label> </td></tr>
                 <tr><td><input type="checkbox" id ="chk_satnav"/><label for="chk_satnav">Capacity</label> </td></tr>
             </table>
-
+            </div>
             <!--Display panel for all vehicle details-->
         </div>
         <div class="catalog-panel" id="catalog-panel">
