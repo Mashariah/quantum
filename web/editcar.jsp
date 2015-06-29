@@ -19,7 +19,7 @@
         <div class="header"></div>
         <%@include file="templates/navigation.jsp" %>
         <%@include  file="templates/dashboard_menu.jsp" %>
-        <form method="POST" action="updatecar" class="form-layout" style="margin-left: 10px; width: 72%;">
+        <form method="POST" action="updatecar" class="form-layout" style="margin-left: 10px;">
             <table class="booking">
                 <tbody>
                     <tr ><td colspan="3"><h3>Editing Vehicle Details</h3></td></tr>
@@ -48,6 +48,7 @@
                                 <option>Jaguar</option>
                                 <option>Range Rover</option>
                                 <option>BMW</option>
+                                <option>Lexus</option>
                             </select>
                         </td></td>
                         <td><label>Year</label></td>

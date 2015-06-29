@@ -1,14 +1,12 @@
 /*
  * Copyright 2015
  *  http://wazza.co.ke
- * 5:22:52 PM  : Jun 14, 2015
+ * 3:52:08 PM  : Jun 28, 2015
  */
-
 package servlets;
 
+import domain.TrackingDescription;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,38 +14,32 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import services.DbRequestService;
 
 /**
  *
  * @author kelli
  */
-public class TrackingList extends HttpServlet {
+public class BookingDetails extends HttpServlet {
 
-   /**
-    *  Get list of all vehicles + status + booking details
-    * @param request
-    * @param response
-    * @throws ServletException
-    * @throws IOException 
-    */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                Connection dbConn = (Connection) request.getServletContext().getAttribute("connector");
+        response.setContentType("text/html;charset=UTF-8");
+        int itemRequest = Integer.parseInt(request.getParameter("item"));
+        Logger.getLogger(BookingDetails.class.getName()).log(Level.INFO,"ItemRequest {0}",itemRequest);
 
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"URL= "+request.getRequestURL().toString());
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"URI= "+request.getRequestURI());
-        ArrayList trackingDetails;
-         
-        String trackSql = "select distinct cars.vehicle_id, teaser_img,detail_img,make,model,registration_num,status,dt_pickup,dt_dropoff,"
-                + "p_location,d_location,first_name,last_name,email_address,"
-                + "phone from cars join vehicle_status join bookings join users on cars.vehicle_id=vehicle_status.vehicle_id"
-                + " and cars.vehicle_id=bookings.vehicle_id and bookings.user_id=users.user_id order by dt_pickup desc;";
-        
-        trackingDetails = DbRequestService.getTrackingDetails(dbConn,trackSql);
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"Number of trackdescription items: {0}",trackingDetails.size());
-        request.getSession().setAttribute("trackingDetails", trackingDetails); //set attribute in session
-        getServletContext().getRequestDispatcher("/bookings_list.jsp").forward(request, response);
+        //compare the selected item with items in the list 
+        ArrayList<TrackingDescription> td = (ArrayList<TrackingDescription>) request.getSession().getAttribute("trackingDetails");
+        Logger.getLogger(BookingDetails.class.getName()).log(Level.INFO,"Items in trackdescription {0}",td.size());
+        TrackingDescription target = new TrackingDescription();
+        for (TrackingDescription current : td) {
+                if (current.getVehicle().getVehicleId() == itemRequest) {
+                        target = current;
+                        Logger.getLogger(BookingDetails.class.getName()).log(Level.INFO,"Current: {0}",target.getVehicle().getRegistrationNumber());
+                        Logger.getLogger(BookingDetails.class.getName()).log(Level.INFO,"Vehicle Id from match:  {0}",target.getVehicle().getVehicleId());
+                }
+        }
+        request.setAttribute("target",target);
+        getServletContext().getRequestDispatcher("/booking_details.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

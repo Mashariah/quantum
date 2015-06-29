@@ -37,8 +37,22 @@ public class ItemsCatalog extends HttpServlet {
      * @throws javax.servlet.ServletException
      * @throws java.io.IOException
      */
+        final int ROWS_PER_PAGE = 6;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        int pageCounter = 1;
+        int offsetValue =0;
+        String page = request.getParameter("page");
+        
+        if(page!=null){
+            pageCounter = Integer.parseInt(page);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Page counter is: {0}",pageCounter);
+            offsetValue = (pageCounter-1) * ROWS_PER_PAGE;
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Offset value is: {0}",offsetValue);
+        }
+        
         
      ArrayList<Vehicle> vehiclesList;
             vehiclesList = new ArrayList<>();
@@ -49,11 +63,14 @@ public class ItemsCatalog extends HttpServlet {
         }
         String sqlStatement = "select cars.vehicle_id,registration_num,make,model,color,_year,teaser_img,detail_img,thumbnail1_img,"
                 + "thumbnail2_img,thumbnail3_img,daily_charge,hourly_charge,weekly_charge,status from cars"
-                + " join rate_model right join vehicle_status on cars.rates = rate_model.rate_id and cars.vehicle_id = vehicle_status.vehicle_id;";
+                + " join rate_model right join vehicle_status on cars.rates = rate_model.rate_id and "
+                + "cars.vehicle_id = vehicle_status.vehicle_id order by cars.vehicle_id desc "
+                + "limit "+ ROWS_PER_PAGE+" offset "+offsetValue+";";
 
         //fetch results...and create list
-        vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement);
+        vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement,(pageCounter-1)*ROWS_PER_PAGE);
         request.getSession().setAttribute("vehicles", vehiclesList); //make object available accross this user session
+        request.setAttribute("page_count",pageCounter);
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/catalog.jsp");
        dispatcher.forward(request, response);
     }

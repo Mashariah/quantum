@@ -12,90 +12,88 @@ Copyright 2015
     margin: 0px;
     padding: 0px;
     font-family : Roboto, Arial, Courier;
-    }
+}
 
-    
-    body{
-        margin-left: 200px;
-        margin-right: 200px;
-        background-image: url(../resc/canvas.png);
-    }
-    
+
+body{
+    margin-left: 200px;
+    margin-right: 200px;
+    background-image: url(../resc/canvas.png);
+}
+
 /*    #background{
         width:100%;
         height:100%;
         background:#ffffff;
     }*/
-    
-    a{
-        text-decoration: none;
-    }
-  
-    .header{    
-        position:relative;
-        margin-top: 4px;
-        margin-bottom: 3px;
-        padding: 20px 25px 3px 20px;
-        background-image: url(../resc/green-dots-greener.jpg);
-        /*background-repeat:no-repeat;*/
-        height:60px;
-        border:solid #66cc00 thin;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
-    
-    #footer{
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        background: #333333;
-        padding: 20px 30px;
-        clear: both;
-        width: auto;
-        height: 40px;
-    }
-    
-    #footer span{
-        vertical-align: middle;
-        text-align: center;
-        display: block;
-        color:#ffffff;
-        font-size: small;
-    }
-    
-    #slider-content{
-        width: 70%;
-        float: left;
-        padding: 10px 5px;
-    }
-    
-    /** right side search, login and register panel for the front page */
-    #slider-description{
-        width: 26%;
-        float:right;
-        background: #ffffff;
-        height: 320px;
-        margin-top:10px;
-        padding-right:10px;
-        margin-bottom:10px;
-        border:#006666 solid thick;
-        border-radius: 5px;
-    }
-    
-    #slider-description p{
-        font-size: 0.75em;
-        padding: 10px;
-        margin-top: 100px;
-        color:#003333;
-        font-weight:600;
-    }
-    
-    #landing-search{
-        /*margin: 5px 2px;*/
-        padding:10px 2px;
-        width:100%;
-        
-    }
-    
+
+a{
+    text-decoration: none;
+}
+
+.header{    
+    position:relative;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    padding: 20px 25px 3px 20px;
+    background-image: url(../resc/bluedots_banner-final.jpg);
+    /*background-repeat:no-repeat;*/
+    height:60px;
+    border:solid #66cc00 thin;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#footer{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: #333333;
+    padding: 20px 30px;
+    clear: both;
+    width: auto;
+    height: 40px;
+}
+
+#footer span{
+    vertical-align: middle;
+    text-align: center;
+    display: block;
+    color:#ffffff;
+    font-size: small;
+}
+
+#slider-content{
+    width: 70%;
+    float: left;
+    padding: 10px 5px;
+}
+
+/** right side search, login and register panel for the front page */
+#slider-description{
+    width: 26%;
+    float:right;
+    background: #ffffff;
+    height: 320px;
+    margin-top:10px;
+    padding-right:10px;
+    margin-bottom:10px;
+    border:#006666 solid thick;
+    border-radius: 5px;
+}
+
+#slider-description p{
+    font-size: 0.75em;
+    padding: 10px;
+    margin-top: 100px;
+    color:#003333;
+    font-weight:600;
+}
+
+#landing-search{
+    padding:10px 2px;
+    width:100%;
+}
+
 /*    #landing-btn{
         background: #9966ff;
         color: #ffffff;
@@ -107,27 +105,27 @@ Copyright 2015
         font-weight: 700;
         float: right;
     }*/
-    
-    .btn{
-        background: #9966ff;
-        color: #ffffff;
-        border: solid #9966ff thin;
-        border-radius: 3px;
-        padding: 5px 5px;
-        margin: 10px 5px;
-        width:60px; height: 30px;
-        font-weight: 700;
-        float: right;
-    }
-    
-    /** target all elements whose type is submit i.e buttons*/
-    *[type~="submit"]{
-        margin: auto;
-        margin-bottom: 10px;
-    }
 
-   
-    .login_panel{
+.btn{
+    background: #9966ff;
+    color: #ffffff;
+    border: solid #9966ff thin;
+    border-radius: 3px;
+    padding: 5px 5px;
+    margin: 10px 5px;
+    width:60px; height: 30px;
+    font-weight: 700;
+    float: right;
+}
+
+/** target all elements whose type is submit i.e buttons*/
+*[type~="submit"]{
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+
+.login_panel{
     border: solid thin darkgrey; 
     border-radius: 4px;
     margin-left: auto;
@@ -157,7 +155,7 @@ Copyright 2015
     padding: 5px;
     margin-bottom: 5px;
 }
-    .menu{
+.menu{
     background: #006666;
     color: #ffffff;
     margin: 0px;
@@ -198,11 +196,12 @@ Copyright 2015
 
 .filter-panel{
     width:23%;
-    background: #ccccff;
+    background: #999999;
     margin-top: 5px ;
     padding: 0px;
     float: left;
-    height:400px;;
+    height:500px;
+    border:#333333 thin solid;
 }
 
 .filter-panel h3{
@@ -210,6 +209,8 @@ Copyright 2015
     background: #ffcc00;
     padding: 5px 8px 5px 25px ;
     font-size: 0.85em;
+    margin-bottom: 10px;
+    border-bottom: #666666 thin solid;
 }
 
 .filter-panel h4{
@@ -250,7 +251,7 @@ input [type =checkbox] {
     margin-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
-    border: dotted #ccc thin;
+    border: dotted #999999 thin;
     float: left;
 }
 
@@ -259,14 +260,14 @@ input [type =checkbox] {
     padding: 0px;
     margin: 0px;
     width: 300px;
-    height: 150px;
+    height: 180px;
 }
 
 /** transparent div for car info display over the image*/
 .item-info-box{
     width: 130px;
     height:135px;
-    background:#9999ff;
+    background:#cccccc;
     float: left;
     opacity: 0.5;
     z-index: 10;
@@ -322,7 +323,7 @@ input [type =checkbox] {
 }
 
 .buttons-panel button{
-        border: solid thin #666;
+    border: solid thin #666;
     background: #ffcc00;
     font-weight: bolder;
     display: inline-block;
@@ -337,13 +338,8 @@ input [type =checkbox] {
 table{
     color: #003333;
     padding: 5px 5px;
-    /*float: left;*/
-    /*width:82%;*/ 
-    /*position: relative;*/
-    /*margin-top:-80px;*/
-    margin-left: 20px;
     border-collapse: collapse;
-    font-size: smaller;
+    font-size: small;
 }
 
 table th, td{
@@ -351,6 +347,13 @@ table th, td{
     border-top: dotted #cccccc thin;    
     padding: 1px 5px;
     border-collapse: collapse;
+}
+
+//table heading text
+#tbl-heading{
+    font-weight: bold;
+    font-size: 1.0em;
+    text-align: center;
 }
 
 strong{
@@ -364,16 +367,16 @@ strong{
     border:solid #666666 thin;
     border-radius: 3px;
     float:left;
-    width:65%;
+    width:72%;
     color: #003333;
     padding:15px;
 }
 
 #landing-search form{
     float:left;
-    width:90%;
+    width:100%;
     color: #003333;
-    padding:5px;
+    padding: 3px 3px;
 }
 
 #landing-search button{
@@ -382,8 +385,9 @@ strong{
     height:30px;
     background: #9966ff;
     border:#006666;
-    border-radius:2px;
+    border-radius:0px;
     font-weight:bold;
+    color: #ffffff;
 }
 
 #landing-search input{
@@ -393,7 +397,7 @@ strong{
     margin:2px;
     border:#666 solid thin ;
     font-weight:bold;
-    padding: 2px 10px;
+    padding: 2px 5px;
 }
 
 #slider-description  a{
@@ -455,7 +459,15 @@ strong{
     margin-bottom: 5px;
 }
 
+.form-layout  [type=password]{
+    border: solid  #666666 thin;
+    width: 150px;
+    padding: 3px;
+    margin-bottom: 5px;
+}
+
 .fee-calculator-panel{
+    /*display: none;*/
     float:left;
     width:51%;
     background:#ffffff;
@@ -465,10 +477,10 @@ strong{
 }
 
 .fee-calculator-panel-bar{
-   background:#ffcc00;
-   padding: 5px;
-   border:solid thin #ffcc00;
-   margin:0px;
+    background:#ffcc00;
+    padding: 5px;
+    border:solid thin #ffcc00;
+    margin:0px;
 }
 
 .fee-calculator-panel  input,select{
@@ -483,10 +495,11 @@ strong{
     margin-bottom: 5px;
     margin-left: 10px;
     float: right;
-    background: #ffcc00;
+    background: #9966ff;
     border: #9966ff thin solid;
     border-radius: 3px;
     font-weight: bold;
+    color: #ffffff;
 }
 
 .fee-calculator-panel label{
@@ -508,15 +521,40 @@ strong{
     border-collapse: collapse;
 }
 
-.panel table{
-    padding: 0px;
+table#booking-list{
+    width:75%; 
+    background: #ffffff; 
+    margin-left: 10px; 
+    float: right;
+}
+
+
+table#booking_details{
+     width:65%; 
+    background: #ffffff; 
+    margin-left: 10px; 
+    float: right;   
+}
+
+.booking-panel-details{
+    margin-left: 10px;
+    padding: 10px;
+    width:73%;
+    float: right;
+    background: #ffffff;
+}    
+
+
+table.panel  tr, td{
+    padding: 5px 9px 5px 5px;
+    border-collapse: collapse;
+    border:none;   
     margin: 0px;
 }
 
-.panel th  tr  td{
-    padding: 5px 3px 5px 3px;
-    border-collapse: collapse;
-    
+#header{
+    background: #666666;
+    margin: 0px;
 }
 
 .dashboard-menu-panel{
@@ -539,19 +577,21 @@ strong{
 
 #tracking-map-canvas{
     width: 76%;
-    height: 400px;
+    height: 350px;
     margin-left: 5px;
     float:right;
-    margin:2px;
+    margin-top:5px;
     border: solid thin #666;
-    
+
 }
 
 #tracking-panel{
     width:75%;
-    height:100px;
+    height:120px;
     background:#fff;
-    margin: 2px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom:  5px;
     padding: 5px;
     float: right;
     border: solid thin #003333;
@@ -559,7 +599,7 @@ strong{
 
 #confirmation-bg{
     width: 100%;
-        height:250px;
+    height:250px;
     background: #ffffff;
     padding-top: 100px;
 }
@@ -574,7 +614,7 @@ strong{
     font-size: 0.9em;
     font-weight: bolder;
     padding:10px;
-    
+
 }
 
 .description-text-area{
@@ -583,3 +623,23 @@ strong{
     color:#666666;
     width: 95%;
 }
+
+#navigation-panel{
+    width: 76%;
+    float: right;
+    height: 20px;
+    background: #006666;
+    font-size: smaller;
+}
+
+#navigation-panel a{
+    /*display: block;*/
+    margin:10px;
+    margin-left: 20px;
+    font-size: 1.2em;
+    /*margin-left: 30%;*/
+    text-align: right;
+    font-weight:bolder;
+    color: white;
+}
+

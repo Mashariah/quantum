@@ -15,6 +15,7 @@ Copyright 2015
     font-weight: bold;
     color:#003333;
     font-size:0.9em;
+    border: solid thin #666666;
 }
 
 .dashboard-menu-panel{

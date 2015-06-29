@@ -18,18 +18,28 @@
             <ul>
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalog">Vehicles</a></li>
-                <li><a href="booking.jsp">Booking</a></li>
-                <li><a href="mybooking">${menu_item}</a>
+                <!--<li><a href="booking.jsp">Booking</a></li>-->
+                 <%
+                        User user = (User)request.getSession().getAttribute("user");
+                    if(user!=null && user.getType().equals("admin")){
+                        out.print("<li><a href=\"vlisting\">Admin Dashboard</a></li>");
+                    }else if(user!=null && user.getType().equals("member")){
+                        out.print("<li><a href=\"mybooking\">My Bookings</a></li>");
+                    }else{
+                        out.print("<li><a href=\"login\">My Bookings</a></li>");
+                    }
+                    %>
+                
 
                 <li id="login_anchor">
                     <a id="a_login" href="login">
                 <%
-                    if(request.getSession().getAttribute("user")!=null){
-                        User user = (User)request.getSession().getAttribute("user");
-                        out.print(user.getEmail());
+                        User user_ = (User)request.getSession().getAttribute("user");
+                    if(user_!=null){
+                        out.print(user_.getEmail());
                         out.print("     <a href=\"logout\">logout</a>");
                     }else{
-                        out.print("Login");
+                        out.print("Login"); //link text
                     }
                     %>
                     </a></li>

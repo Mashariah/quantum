@@ -11,9 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Allexi | User Registration</title>
         <script src="js/jquery-1.11.3.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="js/jquery.validate.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="style/core.css"/>
-        <script>
+        <script type="text/javascript">
             
             $("#myemailform").validate(
       {

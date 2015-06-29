@@ -46,10 +46,9 @@ The Q7 elevates luxury and capability to a new level. With three rows of seating
         </div>
         <div id="slider-description">
             <div id="landing-search">
-                <form method="get" action="search">
+                <form method="post" action="search">
                     <input type="text" name="tx_search" placeholder="Search car model"/>
-                    <!--<input type="submit" value="Search"/>-->
-                    <button>Search</button>
+                    <input type="submit" value="Search" style="width:94%; background:#9966ff; border:#9966ff solid thin;"/>
                 </form>
             </div>
             <p>

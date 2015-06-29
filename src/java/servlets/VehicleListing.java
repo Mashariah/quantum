@@ -45,10 +45,11 @@ ArrayList<Vehicle> vehiclesList;
         }
         String sqlStatement = "select cars.vehicle_id,registration_num,make,model,color,_year,teaser_img,detail_img,thumbnail1_img,"
                 + "thumbnail2_img,thumbnail3_img,daily_charge,hourly_charge,weekly_charge,status from cars"
-                + " join rate_model right join vehicle_status on cars.rates = rate_model.rate_id and cars.vehicle_id = vehicle_status.vehicle_id;";
+                + " join rate_model right join vehicle_status on cars.rates = rate_model.rate_id and cars.vehicle_id = vehicle_status.vehicle_id"
+                + " order by cars.vehicle_id desc;";
 
         //fetch results...and create list
-        vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement);
+        vehiclesList = DbRequestService.processQueryRequest(dbConn, sqlStatement,0);
         request.getSession().setAttribute("vehicles", vehiclesList); //make object available accross this user session
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/vehicle_listing.jsp");
        dispatcher.forward(request, response);

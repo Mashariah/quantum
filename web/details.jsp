@@ -22,11 +22,13 @@
     </head>
     <body>
         <style>
-            .ui-datepicker {font-size: 9pt !important}
+        .ui-datepicker {font-size: 9pt !important}
+        .ui-timepicker-wrapper{font-size: 9pt;}
         </style>
         <div class="header"></div>
         <%@include file="templates/navigation.jsp" %>
             <%
+            //get the vehicle id selected and compare to list in session.
                 int vId =(Integer)request.getAttribute("vehicleId");
 //                int  vId = Integer.parseInt(id);
                 ArrayList <Vehicle> vehicles = (ArrayList)request.getSession().getAttribute("vehicles");
@@ -65,12 +67,13 @@
                 
                 <table class="booking">
                 <tbody>
-                    <tr><td><h4>Hourly: </h4>${target_vehicle.rateModel.hourlyCharge}</td>
+<!--                    <tr><td><h4>Hourly: </h4>${target_vehicle.rateModel.hourlyCharge}</td>
                         <td><h4>Daily  (8 hours)</h4>${target_vehicle.rateModel.dailyCharge}</td>
                         <td><h4>Weekly (7 days) </h4>${target_vehicle.rateModel.weeklyCharge}</td></tr>
-                    <tr>
+                    --><tr>
                         <td >Select rate type</td>
-                        <td colspan="2"><select name="calcOption" id="calcOption">
+                        <td colspan="4">
+                            <select name="calcOption" id="calcOption">
                                 <option value="hourly">Hourly ${target_vehicle.rateModel.hourlyCharge}</option>
                                 <option  value="daily">Daily ${target_vehicle.rateModel.dailyCharge}</option>
                                 <option  value="weekly">Weekly:  ${target_vehicle.rateModel.weeklyCharge}</option>
@@ -90,10 +93,10 @@
                     </tr>
                     <tr><td colspan="4"><button id="calcCharges" onclick="calculateCharges()">Get Charges</button></td></tr>
                     <tr>
-                        <td id="td_duration"colspan="4" style="text-align: right;"><h4>Duration: </h4></td>
+                        <td id="td_duration" style="text-align: left;" colspan="2"><h5>Duration: </h5></td>
+                        <td id="td_amount" colspan="2"><h5>Amount:&nbsp;&nbsp;</h5></td></td>
                     </tr>
                     <tr>
-                        <td id="td_amount" colspan="4" style="text-align: right;"><h4>Amount:</h4></td></td>
                     </tr>
                     <tr><td colspan="4">
                             <a href="booking.jsp"><button id="back" >Book Now</button></a>
@@ -111,6 +114,9 @@
             $("#timerFrom").timepicker();
             $("#timerTo").timepicker();
             console.log("done good");
+            
+            //check for booked vehicles and disable booking functionality
+            
         });
 
 //
@@ -148,9 +154,9 @@
                         console.log("response="+response);
                         var jsResponseObj = JSON.parse(response);
                         document.getElementById("td_duration").innerHTML=
-                                "<h5>Duration: "+jsResponseObj.duration+" "+jsResponseObj.indicator+"</h5>";
+                                "<h5>Duration:&nbsp;&nbsp;&nbsp;&nbsp;"+jsResponseObj.duration+" "+jsResponseObj.indicator+"</h5>";
                         document.getElementById("td_amount").innerHTML=
-                                "<h5>Amount: Ksh "+jsResponseObj.amount+"</h5>";
+                                "<h5>Amount: Ksh&nbsp;&nbsp;&nbsp;&nbsp;"+jsResponseObj.amount+"</h5>";
 
                     }
                 };

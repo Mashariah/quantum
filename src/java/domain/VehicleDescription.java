@@ -25,7 +25,25 @@ public class VehicleDescription {
     private String tireWheels;
 
     
-    public VehicleDescription (int vehicleId, String fuelConsumption,String fuelCapacity,String transmission,
+    /*
+    Vehicle description for use in creating new vehicle
+    */
+    public VehicleDescription (String fuelConsumption,String fuelCapacity,String transmission,
+            int seatingCapacity,String convinience,String safetyAndSecurity,String entertainment,String telematics,
+            String tireWheels){
+        this.fuelConsumption = fuelConsumption;
+        this.fuelCapacity = fuelCapacity;
+        this.transmission = transmission;
+        this.seatingCapacity = seatingCapacity;
+        this.convinience = convinience;
+        this.safetyAndSecurity = safetyAndSecurity;
+        this.entertainment = entertainment;
+        this.telematics = telematics;
+        this.tireWheels = tireWheels;
+    }
+    
+    //update vehicle description
+    public VehicleDescription (int vehicleId,String fuelConsumption,String fuelCapacity,String transmission,
             int seatingCapacity,String convinience,String safetyAndSecurity,String entertainment,String telematics,
             String tireWheels){
         this.vehicleId = vehicleId;

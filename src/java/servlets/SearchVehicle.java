@@ -1,13 +1,13 @@
 /*
  * Copyright 2015
  *  http://wazza.co.ke
- * 5:22:52 PM  : Jun 14, 2015
+ * 10:31:41 PM  : Jun 23, 2015
  */
 
 package servlets;
 
+import domain.Vehicle;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -22,32 +22,21 @@ import services.DbRequestService;
  *
  * @author kelli
  */
-public class TrackingList extends HttpServlet {
+public class SearchVehicle extends HttpServlet {
 
-   /**
-    *  Get list of all vehicles + status + booking details
-    * @param request
-    * @param response
-    * @throws ServletException
-    * @throws IOException 
-    */
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                Connection dbConn = (Connection) request.getServletContext().getAttribute("connector");
-
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"URL= "+request.getRequestURL().toString());
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"URI= "+request.getRequestURI());
-        ArrayList trackingDetails;
-         
-        String trackSql = "select distinct cars.vehicle_id, teaser_img,detail_img,make,model,registration_num,status,dt_pickup,dt_dropoff,"
-                + "p_location,d_location,first_name,last_name,email_address,"
-                + "phone from cars join vehicle_status join bookings join users on cars.vehicle_id=vehicle_status.vehicle_id"
-                + " and cars.vehicle_id=bookings.vehicle_id and bookings.user_id=users.user_id order by dt_pickup desc;";
         
-        trackingDetails = DbRequestService.getTrackingDetails(dbConn,trackSql);
-             Logger.getLogger(TrackingList.class.getName()).log(Level.INFO,"Number of trackdescription items: {0}",trackingDetails.size());
-        request.getSession().setAttribute("trackingDetails", trackingDetails); //set attribute in session
-        getServletContext().getRequestDispatcher("/bookings_list.jsp").forward(request, response);
+        Connection connection = (Connection)getServletContext().getAttribute("connector");
+        response.setContentType("text/html;charset=UTF-8");
+       
+        String searchTarget = request.getParameter("tx_search");
+        Logger.getLogger(SearchVehicle.class.getName()).log(Level.INFO,"Search target is: {0} ",searchTarget);
+        
+        ArrayList <Vehicle> list = DbRequestService.searchVehicle(connection,searchTarget);
+        request.setAttribute("vehicles", list);
+        getServletContext().getRequestDispatcher("/catalog").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

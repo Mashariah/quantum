@@ -21,21 +21,23 @@
          <%@include file="templates/navigation.jsp" %>
          <%@include  file="templates/dashboard_menu.jsp" %>
 
-         <table class="booking" style="background: #ffffff;">
+         <table class="booking" id="booking-list">
                  <thead>
-                 <td>Vehicle</td><td>Booked By</td><td>Email</td><td>Phone</td><td>From Date</td>
-                     <td>To Date</td>
+                 <td id="tbl-heading">Vehicle</td>
+                 <td id="tbl-heading">Booked By</td>
+                 <td id="tbl-heading">From Date</td>
+                 <td id="tbl-heading">To Date</td>
                  </thead>
                  <tbody>
                                          <c:forEach items="${trackingDetails}" var="current">
                                              <tr>
-                                                 <td><c:out value="${current.vehicle.registrationNumber}
-                                                        ${current.vehicle.make}, ${current.vehicle.model}"></c:out></td>
+                                                 <td>${current.vehicle.registrationNumber} ${current.vehicle.make}, ${current.vehicle.model}</td>
                                                  <td>${current.user.fName} ${current.user.lName}</td>
-                                                 <td>${current.user.email}</td>
-                                                 <td>${current.user.phone}</td>
+                                                 <!--<td>${current.user.email}</td>-->
+                                                 <!--<td>${current.user.phone}</td>-->
                                                  <td>${current.booking.dtPickup}</td>
                                                  <td>${current.booking.dtDropoff}</td>
+                                                 <td><a href="booking_details?item=${current.vehicle.vehicleId}">details</a></td>
                                              </tr>
                                          </c:forEach>
                  </tbody>

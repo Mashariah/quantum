@@ -37,11 +37,11 @@ public class DbRequestService {
     private static Statement statement;
     private static ArrayList<Vehicle> vehicleList;
 
-    public static ArrayList<Vehicle> processQueryRequest(Connection connection, String sql) {
+    public static ArrayList<Vehicle> processQueryRequest(Connection connection, String sql, int startPage) {
         try {
-            
+
             SimpleDateFormat df = new SimpleDateFormat("YYYY");
-            
+
             vehicleList = new ArrayList<>();
             statement = connection.createStatement();
             results = statement.executeQuery(sql);
@@ -51,7 +51,7 @@ public class DbRequestService {
                 String make = results.getString("make");
                 String model = results.getString("model");
                 String color = results.getString("color");
-                String  year = df.format(results.getDate("_year"));
+                String year = df.format(results.getDate("_year"));
                 String teaserImgFile = results.getString("teaser_img");
                 String detailImgFile = results.getString("detail_img");
                 String thumbnail1File = results.getString("thumbnail1_img");
@@ -75,7 +75,7 @@ public class DbRequestService {
         } catch (SQLException sqle) {
             Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.SEVERE, sqle.getLocalizedMessage());
         }
-        Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO, "List of vehicles = {0}", vehicleList.size());
+        Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO, "List of vehicles for caatalog {0}", vehicleList.size());
         return vehicleList;
     }
 
@@ -105,7 +105,7 @@ public class DbRequestService {
 
                 description = new VehicleDescription(vehicleId, fConsumption, fCapacity, transmission, seating,
                         convinience, sasfety, entertainment, telematics, tireWheels);
-                Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO, "Fuel capacity:{0}",description.getFuelCapacity());
+                Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.INFO, "Fuel capacity:{0}", description.getFuelCapacity());
             }
         } catch (SQLException sqle) {
             Logger.getLogger(DbRequestService.class.getCanonicalName()).log(Level.SEVERE, sqle.getLocalizedMessage());
@@ -158,6 +158,13 @@ public class DbRequestService {
         return done;
     }
 
+    /**
+     * New Vehicle insert transaction Get the id of the vehicle added last; use
+     * the retrieved id to attach the description details in the related table
+     *
+     * @param c the connection object
+     * @return the id of the last inserted vehicle in the vehicles table.
+     */
     public static int getLastAddedVehicle(Connection c) {
         int last = 0;
         String sql = "select vehicle_id from cars order by vehicle_id desc limit 1;";
@@ -166,13 +173,12 @@ public class DbRequestService {
             ResultSet rs = s.executeQuery(sql);
             if (rs != null && rs.next()) {
                 last = rs.getInt("vehicle_id");
-                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "last vehicle id = {0}", last);
             }
         } catch (SQLException sqle) {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in getting last added: {0}", sqle.getMessage());
             sqle.printStackTrace();
         }
-        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "last vehicle id returning= {0}", last);
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Id of the last inserted vehicle: {0}", last);
         return last;
     }
 
@@ -194,8 +200,8 @@ public class DbRequestService {
             ps.setString(4, v.getColor());
             Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Color: {0}", v.getColor());
 
-            ps.setString(5, "2016"); //convert date from java.util.Date to java.sql.Date
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Date:== {0}", v.getYear());
+            ps.setString(5, v.getYear());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Date:  {0}", v.getYear());
             ps.setString(6, v.getTeaserImg());
             Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "TeaserImg: {0}", v.getTeaserImg());
             ps.setString(7, v.getDetailImg());
@@ -206,7 +212,7 @@ public class DbRequestService {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Thumbnail2: {0}", v.getThumbnail2Img());
             ps.setString(10, v.getThumbnail2Img());
             ps.setInt(11, 3);
-            ps.executeUpdate();
+            ps.executeUpdate(); //insert vehicle record ...use its generated id below for description
 
             Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Success adding bare vehicle{0}");
             //add description 
@@ -226,34 +232,42 @@ public class DbRequestService {
             ps2.setString(9, vd.getTelematics());
             ps2.setString(10, vd.getTireWheels());
 
-            ps2.executeUpdate();
+            ps2.executeUpdate(); //run insert statement for vehicle description.
+
+            // !important: update the vehicle status table for new vehicle
+            String statusSql = "insert into vehicle_status(vehicle_id,status) values(" + vehicleToUpdate + ",1);";
+            int state = statement.executeUpdate(statusSql);
         } catch (SQLException sqle) {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in addVehicle: {0}", sqle.getMessage());
-            sqle.printStackTrace();
-            System.out.println("MySQL error code: " + sqle.getErrorCode());
-            System.out.println("SQL state: " + sqle.getSQLState());
         }
         return isAdded;
     }
 
     /**
      * Get vehicle, status and booking details for tracking purposes
+     *
+     * @param conn
+     * @param sql
+     * @return
      */
     public static ArrayList getTrackingDetails(Connection conn, String sql) {
 
         ArrayList list = new ArrayList();
 
-        Booking booking = new Booking();
-        Vehicle vehicle = new Vehicle();
-        User user = new User();
 
         try {
             statement = conn.createStatement();
             results = statement.executeQuery(sql);
             while (results.next()) {
-            //create the objects based on the results...
+                //create the objects based on the results...
+        Booking booking = new Booking();
+        Vehicle vehicle = new Vehicle();
+        User user = new User();
                 //vehicle
+                vehicle.setTeaserImg(results.getString("teaser_img"));
+                vehicle.setTeaserImg(results.getString("detail_img"));
                 vehicle.setMake(results.getString("make"));
+                vehicle.setVehicleId(results.getInt("vehicle_id"));
                 vehicle.setModel(results.getString("model"));
                 vehicle.setRegistrationNumber(results.getString("registration_num"));
 
@@ -274,7 +288,7 @@ public class DbRequestService {
             }
 
         } catch (SQLException sqle) {
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, 
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE,
                     "Error getting track details" + sqle.getLocalizedMessage());
             sqle.printStackTrace();
         }
@@ -337,7 +351,7 @@ public class DbRequestService {
                     String make = results.getString("make");
                     String model = results.getString("model");
                     String color = results.getString("color");
-                    String  year = String.valueOf(results.getDate("_year").getYear());
+                    String year = String.valueOf(results.getDate("_year").getYear());
                     String teaserImgFile = results.getString("teaser_img");
                     String detailImgFile = results.getString("detail_img");
                     String thumbnail1File = results.getString("thumbnail1_img");
@@ -366,40 +380,40 @@ public class DbRequestService {
 
         return filteredResults;
     }
-    
+
     //
-    public static BookingDetails getUserBooking(Connection connection,String sql){
+    public static BookingDetails getUserBooking(Connection connection, String sql) {
         BookingDetails details = null;
         Booking b = new Booking();
         Vehicle v = new Vehicle();
         User u = new User();
-        try{
+        try {
             results = connection.createStatement().executeQuery(sql);
-            while(results.next()){
-               b.setDtPickup(results.getString("dt_pickup"));
-               b.setDtDropoff(results.getString("dt_dropoff"));
-               b.setdLocation(results.getString("d_location"));
-               b.setpLocation(results.getString("p_location"));
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Adding to booking detail...");
-               
-               //vehicle 
-               v.setMake(results.getString("make"));
-               v.setModel(results.getString("model"));
-               v.setTeaserImg(results.getString("teaser_img"));
-               v.setRegistrationNumber(results.getString("registration_num"));
-               details= new BookingDetails(b, v);
+            while (results.next()) {
+                b.setDtPickup(results.getString("dt_pickup"));
+                b.setDtDropoff(results.getString("dt_dropoff"));
+                b.setdLocation(results.getString("d_location"));
+                b.setpLocation(results.getString("p_location"));
+                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Adding to booking detail...");
+
+                //vehicle 
+                v.setMake(results.getString("make"));
+                v.setModel(results.getString("model"));
+                v.setTeaserImg(results.getString("teaser_img"));
+                v.setRegistrationNumber(results.getString("registration_num"));
+                details = new BookingDetails(b, v);
             }
-        } catch (SQLException sqe){
+        } catch (SQLException sqe) {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "SQL Error in getting booking details: {0}", sqe.getLocalizedMessage());
-                    }
+        }
         return details;
     }
-    
+
     /* 
-    Edit details of a selected vehicle
-    */
-    public static Vehicle editVehicle(Connection conn, String sql){
-        
+     Edit details of a selected vehicle
+     */
+    public static Vehicle editVehicle(Connection conn, String sql) {
+
 //        Calendar calendar = new GregorianCalendar();
         SimpleDateFormat df = new SimpleDateFormat("YYYY");
         Vehicle targetVehicle = null;
@@ -407,12 +421,12 @@ public class DbRequestService {
             statement = conn.createStatement();
             results = statement.executeQuery(sql);
             //expecting 1 result in the set
-            while(results.next()){
-                
+            while (results.next()) {
+
                 //work on the year formatting
                 Date carYear = results.getDate("_year");
                 String year = df.format(carYear);
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Year after format is:  {0}",year);
+                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Year after format is:  {0}", year);
                 //recreate the vehicle and its description
                 targetVehicle = new Vehicle(results.getInt("vehicle_id"),
                         results.getString("registration_num"),
@@ -420,7 +434,7 @@ public class DbRequestService {
                         results.getString("model"),
                         results.getString("color"),
                         year,
-//                        String.valueOf(results.getDate("_year")),
+                        //                        String.valueOf(results.getDate("_year")),
                         results.getString("teaser_img"),
                         results.getString("detail_img"),
                         results.getString("thumbnail1_img"),
@@ -437,50 +451,61 @@ public class DbRequestService {
                         results.getString("entertainment"),
                         results.getString("telematics"),
                         results.getString("tire_wheels"));
-                        targetVehicle.setDescription(description);
+                targetVehicle.setDescription(description);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in edit sql"+ex.getMessage());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in edit sql" + ex.getMessage());
         }
         return targetVehicle;
     }
-    
-    public static boolean updateVehicleDetails(Connection c, Vehicle v){
+
+    public static boolean updateVehicleDetails(Connection c, Vehicle v) {
         boolean success = false;
         //update vehicle
-        String vehicleUpdateSql ="update  cars set registration_num= '"+v.getRegistrationNumber()+"',make='"+v.getMake()
-        + "',model='"+v.getModel()+"',_year='"+v.getYear()+"'  where cars.vehicle_id ="+v.getVehicleId();
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "vehicles update sql ={0},",vehicleUpdateSql);
+        String vehicleUpdateSql = "update  cars set registration_num= '" + v.getRegistrationNumber() + "',make='" + v.getMake()
+                + "',model='" + v.getModel() + "',_year='" + v.getYear() + "'  where cars.vehicle_id =" + v.getVehicleId();
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "vehicles update sql ={0},", vehicleUpdateSql);
         //update vehicle description 
-            VehicleDescription vd = v.getDescription();
-        String  descriptionUpdateSql = "update  car_features set fuel_consumption='"+vd.getFuelConsumption()+
-                "',fuel_capacity='"+vd.getFuelCapacity()+"',transmission='"+vd.getTransmission()+"',seating_cap="+vd.getSeatingCapacity()
-                +",convinience='"+vd.getConvinience()+"',safety_security='"+vd.getSafetyAndSecurity()+"',entertainment='"+vd.getEntertainment()
-                +"',telematics='"+vd.getTelematics()+"',tire_wheels='"+vd.getTireWheels()+"' where car_features.vehicle_id ="+v.getVehicleId();;
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "desc update sql ={0}",descriptionUpdateSql);
-        try{
-        statement = c.createStatement();
-        int vehiclesUpdated = statement.executeUpdate(vehicleUpdateSql);
-        int  descriptionsUpdates = statement.executeUpdate(descriptionUpdateSql);
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "vehiclesUpdate ="+vehiclesUpdated);
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "descriptionUpdate ="+descriptionsUpdates);
+        VehicleDescription vd = v.getDescription();
+        String descriptionUpdateSql = "update  car_features set fuel_consumption='" + vd.getFuelConsumption()
+                + "',fuel_capacity='" + vd.getFuelCapacity() + "',transmission='" + vd.getTransmission() + "',seating_cap=" + vd.getSeatingCapacity()
+                + ",convinience='" + vd.getConvinience() + "',safety_security='" + vd.getSafetyAndSecurity() + "',entertainment='" + vd.getEntertainment()
+                + "',telematics='" + vd.getTelematics() + "',tire_wheels='" + vd.getTireWheels() + "' where car_features.vehicle_id =" + v.getVehicleId();;
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "desc update sql ={0}", descriptionUpdateSql);
+        try {
+            statement = c.createStatement();
+            int vehiclesUpdated = statement.executeUpdate(vehicleUpdateSql);
+            int descriptionsUpdates = statement.executeUpdate(descriptionUpdateSql);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "vehiclesUpdate =" + vehiclesUpdated);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "descriptionUpdate =" + descriptionsUpdates);
             success = true;
-        }catch(SQLException sqle){
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in executing update sql"+sqle.getMessage());
-            
+        } catch (SQLException sqle) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in executing update sql" + sqle.getMessage());
+
         }
         return success;
     }
-    
-    public static int deleteVehicle(Connection c, String deleteSql){
+
+    public static int deleteVehicle(Connection c, String deleteSql) {
         int state = 0;
         try {
             statement = c.createStatement();
-             state = statement.executeUpdate(deleteSql);
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Deleting state...{0}",state);
+            state = statement.executeUpdate(deleteSql);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Deleting state...{0}", state);
         } catch (SQLException ex) {
-            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in deleting vehicle...{0}",ex.getMessage());
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Error in deleting vehicle...{0}", ex.getMessage());
         }
         return state;
     }
+
+    public static ArrayList<Vehicle> searchVehicle(Connection connection, String searchTarget) {
+        String sqlStatement = "select cars.vehicle_id,registration_num,make,model,color,_year,teaser_img,detail_img,thumbnail1_img,"
+                + "thumbnail2_img,thumbnail3_img,daily_charge,hourly_charge,weekly_charge,status from cars"
+                + " join rate_model  join vehicle_status on cars.rates = rate_model.rate_id and cars.vehicle_id ="
+                + " vehicle_status.vehicle_id and cars.make='" + searchTarget + "'";
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Search sql is: {0}", sqlStatement);
+        ArrayList<Vehicle> results = processQueryRequest(connection, sqlStatement, 0);
+        return results;
+    }
+
 }

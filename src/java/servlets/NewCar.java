@@ -55,7 +55,7 @@ public class NewCar extends HttpServlet {
 
         LinkedHashMap<String, String> formParams = new LinkedHashMap<>();
         LinkedHashMap<String, String> imageFiles = new LinkedHashMap<>();
-        
+
         //check if the request contains upload data...
         if (!ServletFileUpload.isMultipartContent(request)) {
             PrintWriter p = response.getWriter();
@@ -110,8 +110,7 @@ public class NewCar extends HttpServlet {
                         String fName = current.getFieldName();
                         String value = current.getString();
                         formParams.put(fName, value);
-                        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "Field Name " + fName);
-                        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "Value " + value);
+                        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "Field Name: {0} Value: {1}", new Object[]{fName, value});
                     }//end else
                 } //end for
             }//end try
@@ -119,35 +118,23 @@ public class NewCar extends HttpServlet {
             request.setAttribute("upload_message", "some error occured in uplaod:" + fuex.getLocalizedMessage());
         }
 
-        
         //working with form parameters...
-        
-        
-
-        //navigate page sfter the operation
-        String navPath="";
-        Vehicle vehicle = createVehicle(formParams, imageFiles);
-        int lastAddedVehicleId = DbRequestService.getLastAddedVehicle(connection);
-        //check if this is an update or a new car entry
-        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "Entry mode is: {0}",formParams.get("mode"));
-
-  
-            
+        String navPath = "";
         //create vehicle and its features using description, features and images
-        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, vehicle.getRegistrationNumber());
-        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "The last updated vehicle id is: {0}", lastAddedVehicleId);
-        VehicleDescription description = createFeatues(lastAddedVehicleId, formParams);
-            
-            if (DbRequestService.addVehicle(connection, vehicle, description)) {
-                request.setAttribute("addMsg", "Vehicle successfully to db");
-                navPath = "/newcar.jsp";
-            } else {
-                request.setAttribute("addError", "Error occured adding vehicle to db");
-                navPath = "/confirmation.jsp";
-            }
+        Vehicle vehicle = createVehicle(formParams, imageFiles);
+        VehicleDescription description = createFeatures(formParams);
 
-            getServletContext().getRequestDispatcher(navPath).forward(request, response);
-        //check if the form contains upload files
+        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, vehicle.getRegistrationNumber());
+
+        if (DbRequestService.addVehicle(connection, vehicle, description)) {
+            request.setAttribute("addMsg", "Vehicle successfully to db");
+            navPath = "vlisting";
+        } else {
+            request.setAttribute("addError", "Error occured adding vehicle to db");
+            navPath = "/newcar.jsp";
+        }
+
+        getServletContext().getRequestDispatcher(navPath).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -200,12 +187,14 @@ public class NewCar extends HttpServlet {
         return vehicle;
     }
 
-    private VehicleDescription createFeatues(int vehicleId, LinkedHashMap<String, String> features) {
-        VehicleDescription vehicleDescription = new VehicleDescription(vehicleId, features.get("tx_fueleconomy"), features.get("tx_fuelcapacity"), features.get("drp_transmission"),
-                Integer.parseInt(features.get("drp_scapacity")), features.get("txb_convenience"), features.get("txb_safetysec"),
-                features.get("txb_entertainment"), features.get("txb_telematics"), features.get("txb_tireswheels"));
+    private VehicleDescription createFeatures(LinkedHashMap<String, String> features) {
+        Logger.getLogger(NewCar.class.getName()).log(Level.INFO, "Seating Capacity {0}", features.get("drp_scapacity"));
+
+        VehicleDescription vehicleDescription = new VehicleDescription(features.get("tx_fueleconomy"),
+                features.get("tx_fuelcapacity"), features.get("drp_transmission"), Integer.parseInt(features.get("drp_scapacity")),
+                features.get("txb_convenience"), features.get("txb_safetysec"), features.get("txb_entertainment"),
+                features.get("txb_telematics"), features.get("txb_tireswheels"));
         return vehicleDescription;
     }
-
 
 }
