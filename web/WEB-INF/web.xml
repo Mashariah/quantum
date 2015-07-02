@@ -21,7 +21,7 @@
         </init-param>
         <init-param>
             <param-name>password</param-name>
-            <param-value>cold123/</param-value>
+            <param-value>bluehair123</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -96,6 +96,10 @@
     <servlet>
         <servlet-name>BookingDetails</servlet-name>
         <servlet-class>servlets.BookingDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingReset</servlet-name>
+        <servlet-class>servlets.BookingReset</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
@@ -176,6 +180,10 @@
     <servlet-mapping>
         <servlet-name>BookingDetails</servlet-name>
         <url-pattern>/booking_details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingReset</servlet-name>
+        <url-pattern>/bclear</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -19,6 +19,18 @@
   <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="js/jquery-ui.js"  type="text/javascript"/></script>
     <script src="js/jquery.timepicker.js"  type="text/javascript"/></script>
+<script src="js/simplegallery.js"  type="text/javascript"/></script>
+<script>
+            
+        $(document).ready(function(){
+	$('#img-gallery').simplegallery({
+	  galltime : 400, // transition delay
+	  gallcontent: '.content',
+	  gallthumbnail: '.thumbnail',
+	  gallthumb: '.thumb'
+	});
+	});
+</script>
     </head>
     <body>
         <style>
@@ -39,10 +51,29 @@
                     }
                 }
             %>
-        <div class="details-panel">
-            <img src="fileserver?param1=${target_vehicle.detailImg}">
-            <img src="fileserver?param1=${target_vehicle.thumbnail1Img}">
-        </div>
+        <section class="simplegallery" id="img-gallery">
+            <div class="content">
+                <img src="fileserver?param1=${target_vehicle.detailImg}" class="image_0"/>
+            <img src="fileserver?param1=${target_vehicle.detailImg}" class="image_1" style="display: none;" alt=""/>
+            <img src="fileserver?param1=${target_vehicle.thumbnail1Img}" class="image_2" style="display: none;" alt=""/>
+            <img src="fileserver?param1=${target_vehicle.thumbnail2Img}" class="image_3" style="display: none;" alt=""/>
+            </div>
+            <div class="clear"></div>
+            <div class="thumbnail">
+                <div class="thumb">
+                    <a href="#" rel="0">
+                        <img src="fileserver?param1=${target_vehicle.detailImg}" id="thumb_1"></a>
+                </div>
+                <div class="thumb">
+                    <a href="#" rel="1">
+                        <img src="fileserver?param1=${target_vehicle.thumbnail1Img}" id="thumb_2"></a>
+                </div>
+                <div class="thumb last">
+                    <a href="#" rel="2"><img src="fileserver?param1=${target_vehicle.thumbnail2Img}" id="thumb_3"></a>
+                </div>
+            </div>
+        </section>
+                <!--<div class="clear"></div>-->
         <div class="details-panel-description">
             <strong>${target_vehicle.make} ${target_vehicle.model} Details</strong>
             <hr>
@@ -165,6 +196,6 @@
                 xmlHttpRequest.send(null);                        
                         
             }
-        
+
     </script>
 </html>

@@ -52,7 +52,7 @@
                 <tbody>
                     <tr ><td colspan="3"><h3>User Registration</h3></td></tr>
                     <tr>
-                        ${vehicle_add_error}
+                <strong style="background: white; color:red; font-size: 0.8em;" > ${reg_error}</strong>
                     </tr>
                     <tr>
                         <td><label for="tx_fname">First Name</label></td>

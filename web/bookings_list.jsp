@@ -37,6 +37,7 @@
                                                  <!--<td>${current.user.phone}</td>-->
                                                  <td>${current.booking.dtPickup}</td>
                                                  <td>${current.booking.dtDropoff}</td>
+                                                 <td>${current.booking.bookingId}</td>
                                                  <td><a href="booking_details?item=${current.vehicle.vehicleId}">details</a></td>
                                              </tr>
                                          </c:forEach>

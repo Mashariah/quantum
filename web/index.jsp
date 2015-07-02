@@ -31,15 +31,15 @@
         <%@include file="templates/navigation.jsp" %>
         <div id="slider-content">
             <ul class="bxslider">
-                <li><img src="resc/images/audi1.png" title="Go to town on the town
+                <li><img src="resc/images/jaguar-xf.jpg" title="Go to town on the town
 With its nimble performance and versatile cargo carrying capability, the Audi Q3 can take you on new adventures all over town. Available quattro® all-wheel drive means its great for getting out of it too."/></li>
-                <li><img src="resc/images/xf2015_coupe.png" title="The XJ redefines what a luxury car should be. A dramatic combination of beauty, luxury and power, the XJ delivers a refreshingly dynamic driving experience. For the passenger, the cabin is built for stretching out and relaxing. No car looks, or feels, like the XJ."/></li>
-                <li><img src="resc/images/audi_Q7.png" title="A luxurious performance for seven
+                <li><img src="resc/images/redone.jpg" title="The XJ redefines what a luxury car should be. A dramatic combination of beauty, luxury and power, the XJ delivers a refreshingly dynamic driving experience. For the passenger, the cabin is built for stretching out and relaxing. No car looks, or feels, like the XJ."/></li>
+                <li><img src="resc/images/d_range_esport.jpg" title="A luxurious performance for seven
 The Q7 elevates luxury and capability to a new level. With three rows of seating, a refined interior and impressive power options, the Q7 delivers a stunning performance for a party of seven."/></li>
                 <li><img src="resc/images/d_jaguar_fpace.jpg" title="This, the second-generation Jaguar XF, is the latest in a storm of new models 
                          from Jaguar Land Rover, joining the recently launched smaller XE saloon 
                          and beating the upcoming F-Pace SUV to market. "/></li>
-                <li><img src="resc/images/audi_A3.png" title="This, the second-generation Jaguar XF, is the latest in a storm of new models 
+                <li><img src="resc/images/silver-back.jpg" title="This, the second-generation Jaguar XF, is the latest in a storm of new models 
                          from Jaguar Land Rover, joining the recently launched smaller XE saloon 
                          and beating the upcoming F-Pace SUV to market. "/></li>
             </ul>

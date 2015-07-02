@@ -251,10 +251,7 @@ public class DbRequestService {
      * @return
      */
     public static ArrayList getTrackingDetails(Connection conn, String sql) {
-
         ArrayList list = new ArrayList();
-
-
         try {
             statement = conn.createStatement();
             results = statement.executeQuery(sql);
@@ -273,6 +270,7 @@ public class DbRequestService {
 
                 //booking
                 booking.setDtPickup(results.getString("dt_pickup"));
+                booking.setBookingId(results.getInt("booking_id"));
                 booking.setDtDropoff(results.getString("dt_dropoff"));
                 booking.setdLocation(results.getString("d_location"));
                 booking.setpLocation(results.getString("p_location"));
@@ -506,6 +504,18 @@ public class DbRequestService {
         Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Search sql is: {0}", sqlStatement);
         ArrayList<Vehicle> results = processQueryRequest(connection, sqlStatement, 0);
         return results;
+    }
+
+    public static int clearBooking(int bookingId, Connection conn) {
+        String clearSql = "delete from bookings where booking_id="+bookingId;
+        int state = 0;
+        try {
+            statement = conn.createStatement();
+            state=statement.executeUpdate(clearSql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Booking SQL delete error:", ex);
+        }
+        return state;
     }
 
 }

@@ -29,7 +29,7 @@
             <tr><td>Pickup Location:&nbsp;&nbsp;&nbsp;${target.booking.pLocation}</td></tr>
             <tr><td>Return Location:&nbsp;&nbsp;&nbsp;${target.booking.dLocation}</td></tr>
             <tr><td><a href="tracklist?id=bookings">back</a>&nbsp;&nbsp;&nbsp;
-            <a href="booking_cancel">clear booking</a></td></tr>
+            <a href="bclear?booking=${target.booking.bookingId}">clear booking</a></td></tr>
         </table>
         </div>
         </div>

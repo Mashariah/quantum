@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+Copyright 2015
+ http://wazza.co.ke
+8:18:29 AM  : Jul 2, 2015
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style/simplegallery.demo1.css"/>
+    <script src="js/simplegallery.js"  type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#gallery').simplegallery({
+            galltime : 400,
+            gallcontent: '.content',
+            gallthumbnail: '.thumbnail',
+            gallthumb: '.thumb'
+        });
+
+    });
+</script>
+    </head>
+    <body>
+        <section id="gallery" class="simplegallery">
+            <div class="content">
+                <img src="resc/images/1.png" class="image_0" alt=""/>
+                <img src="resc/images/2.png" class="image_1" alt="" style="display: none;"/>
+                <img src="resc/images/3.png" class="image_2" alt="" style="display: none;"/>
+            </div>
+            <div class="clear"></div>
+            <div class="thumbnail">
+                <div class="thumb"> 
+                    <a href="#" rel="0" > <img src="resc/images/2.png" alt="" id="thumb_1"> </a> 
+                </div>
+                <div class="thumb last"> 
+                    <a href="#" rel="1"> <img src="resc/images/3.png" alt="" id="thumb_2"> </a> 
+                </div>
+            </div>
+        </section>
+        <div class="clear"></div>
+
+    </body>
+</html>

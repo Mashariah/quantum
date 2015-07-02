@@ -9,6 +9,8 @@ package servlets;
 import domain.User;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,13 +57,14 @@ public class RegisterUser extends HttpServlet {
         if(DbRequestService.createUser(connection,user)>0){
             //redirect to login page
             request.setAttribute("new_user", fName+" "+lName);
-            String activation = "http://localhost:8080/allexi/login.jsp";
+            String activation = "http://"+request.getLocalAddr()+":8080/allexi/login.jsp";
             request.setAttribute("activation_url", activation);
             pageAfter = "/confirmation.jsp";
         }else{
             //set some error message and redirect to registration page.
-            request.setAttribute("reg_error", "some error occured in your registration");
-            pageAfter = "/registration.jsp";
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.INFO, "Error in creating user....");
+            request.setAttribute("reg_error", "Email address providded is already in use");
+            pageAfter = "/register.jsp";
         }
             getServletContext().getRequestDispatcher(pageAfter).forward(request, response);
         

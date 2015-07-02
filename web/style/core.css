@@ -66,6 +66,10 @@ a{
     width: 70%;
     float: left;
     padding: 10px 5px;
+
+    box-shadow: 3px 3px 4px #000;
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
 }
 
 /** right side search, login and register panel for the front page */
@@ -79,6 +83,10 @@ a{
     margin-bottom:10px;
     border:#006666 solid thick;
     border-radius: 5px;
+
+    box-shadow: 3px 3px 4px #000;
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 20px 3px 4px #000;
 }
 
 #slider-description p{
@@ -202,6 +210,11 @@ a{
     float: left;
     height:500px;
     border:#333333 thin solid;
+
+    //drop shadow
+    box-shadow: 3px 3px 4px #000;
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
 }
 
 .filter-panel h3{
@@ -297,6 +310,7 @@ input [type =checkbox] {
     margin:0px;;
     float: right;
     padding: 5px;
+    position: relative;
 }
 
 .details-panel-description p{
@@ -530,7 +544,7 @@ table#booking-list{
 
 
 table#booking_details{
-     width:65%; 
+    width:65%; 
     background: #ffffff; 
     margin-left: 10px; 
     float: right;   
@@ -643,3 +657,56 @@ table.panel  tr, td{
     color: white;
 }
 
+/** will affect  overflows and positioning*/
+/*.bx-wrapper, .bx-viewport{
+    height:300px !important;
+}*/
+
+/** resize the lists instead*/
+.bx-wrapper ul li{
+    height: 300px;
+}
+
+/**galllery for the details page image display*/
+.simplegallery{
+    width:50%;
+    height: 100%;
+    border:solid #003333 thin;
+    padding: 10px;
+    float: left;
+}
+
+.simplegallery .content {
+    background: #006666;
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    float: left;
+}
+
+.simplegallery .content img {
+    width: 100%;
+    border: 1px solid #9c9c9c;
+    /*float: left;*/
+}
+
+.simplegallery .thumbnail { margin-top: 5px; }
+
+.simplegallery .thumbnail .thumb {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 0 5px 0 0;
+    cursor: pointer;
+}
+
+.simplegallery .thumbnail .thumb img {
+    border: 1px solid #9c9c9c;
+    width: 100px;
+}
+
+.simplegallery .thumbnail .last { margin: 0; }
+
+.clear { clear: both; }
