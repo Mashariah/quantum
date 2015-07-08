@@ -37,10 +37,11 @@ public class BookingAgent extends HttpServlet {
         dbConn = (Connection) request.getServletContext().getAttribute("connector");
 
         /**
-         * 1. Retrieve user if login present else create new user (visitor type)
-         * and persist 2. Get other user form input 3. Retrieve car id from
-         * request attribute 'vehicles' 4. create new booking record and persist
-         * to bookings table 5. Update the vehicle status to indicate booked
+         * 1. Retrieve user if login present else create new user (visitor type) and persist 
+         * 2. Get other user form input 
+         * 3. Retrieve car id from request attribute 'vehicles'
+         * 4. create new booking record and persist  to bookings table
+         * 5. Update the vehicle status to indicate booked
          */
         Vehicle vehicle;
         User user;
@@ -58,7 +59,7 @@ public class BookingAgent extends HttpServlet {
         //     the same-location dropoff checkbox check
         String[] dropoffLoc = request.getParameterValues("checkbx_dropoff");
         if (dropoffLoc != null) {
-            dLocation = pLocation;
+            dLocation = pLocation; //set dropoff location same as pickup
             Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, " dropoff checkbox state is : {0}", dropoffLoc[0]);
             Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "same dropoff  location is : {0}", dLocation);
         } else {
@@ -73,8 +74,8 @@ public class BookingAgent extends HttpServlet {
         Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "vehicle selected in session: {0}", vehicle.getRegistrationNumber());
 
         if (user == null) {
+            //create new user (type visitor) with supplied details
             Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "user is null... creating...");
-            //create new user with supplied details
             String fName = request.getParameter("tx_fname");
             Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "First Name: {0}", fName);
             String lName = request.getParameter("tx_lname");
@@ -86,13 +87,20 @@ public class BookingAgent extends HttpServlet {
             user = new User(fName, lName, email, phoneNumber);
             user.setType("visitor");
             persistedUserId = persistUser(user);
+        }else{
+            //get user id for logged in user
+            persistedUserId =user.getUserId();
+            Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "User is logged in and id is: {0}",persistedUserId);
+        }
+        
+        
+        
             if (persistedUserId == 0) {
                 //the adding of visitor user failed so stop ...get user back to page and show error..
                 request.setAttribute("user_add_error", "The Email address provided is already in use!");
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/booking.jsp");
                 dispatcher.forward(request, response);
             }
-        }
 
         //make the booking
         int vehicleId = vehicle.getVehicleId();
@@ -106,7 +114,6 @@ public class BookingAgent extends HttpServlet {
         DbRequestService.updateVehicleStatus(dbConn, statusUpdateSql);
 //generate payment code and send confirmation email and prompt for payment code 
         int code = new CodeGenerator().getNextInt();
-        try {
             Logger.getLogger(BookingAgent.class.getName()).log(Level.INFO, "Starting mail...");
             if (new MailMan().sendConfirmation(user.getEmail(), "ALLEXUS CAR HIRE: BOOKING CONFIRMATION",
                     "Thank you " + user.getfName() + " for choosing us."
@@ -121,14 +128,7 @@ public class BookingAgent extends HttpServlet {
                 dispatcher.forward(request, response);
 
             }
-        } catch (AddressException adrexp) {
-            Logger.getLogger(BookingAgent.class.getName()).log(Level.SEVERE, "Address Error: {0}", adrexp.getMessage());
-
-        } catch (MessagingException msgexp) {
-            Logger.getLogger(BookingAgent.class.getName()).log(Level.SEVERE, " Messaging Error: {0}", msgexp.getMessage());
-
-        }
-        // Show summary of booking on confirmation page...prompt for 
+       // Show summary of booking on confirmation page...prompt for 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

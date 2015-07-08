@@ -15,6 +15,7 @@ public class TrackingDescription {
     private Vehicle vehicle;
     private Booking booking;
     private User user;
+    private VehicleMapping vmap;
     
     public TrackingDescription (){
         
@@ -24,6 +25,14 @@ public class TrackingDescription {
     this.vehicle = vehicle;
     this.booking = booking;
     this.user = user;
+    }
+    
+    public TrackingDescription(Vehicle vehicle, Booking booking, User user,VehicleMapping vmap){
+    this.vehicle = vehicle;
+    this.booking = booking;
+    this.user = user;
+    this.vmap = vmap;
+    
     }
 
     /**
@@ -66,6 +75,20 @@ public class TrackingDescription {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return the vmap
+     */
+    public VehicleMapping getVmap() {
+        return vmap;
+    }
+
+    /**
+     * @param vmap the vmap to set
+     */
+    public void setVmap(VehicleMapping vmap) {
+        this.vmap = vmap;
     }
     
 }

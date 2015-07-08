@@ -6,6 +6,10 @@
 
 package domain;
 
+import java.util.logging.Logger;
+import org.jboss.logging.Logger.Level;
+
+
 /**
  *
  * @author kelli
@@ -106,6 +110,7 @@ public class Booking {
      * @return the pLocation
      */
     public String getpLocation() {
+        Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.OFF, "Getting location= {0}",pLocation);
         return pLocation;
     }
 
@@ -114,6 +119,7 @@ public class Booking {
      */
     public void setpLocation(String pLocation) {
         this.pLocation = pLocation;
+        Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.OFF, "Setting location= {0}",pLocation);
     }
 
     /**

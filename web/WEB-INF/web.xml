@@ -101,6 +101,14 @@
         <servlet-name>BookingReset</servlet-name>
         <servlet-class>servlets.BookingReset</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CancelBooking</servlet-name>
+        <servlet-class>servlets.CancelBooking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MapLocator</servlet-name>
+        <servlet-class>servlets.MapLocator</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authenticate</servlet-name>
         <url-pattern>/auth</url-pattern>
@@ -184,6 +192,14 @@
     <servlet-mapping>
         <servlet-name>BookingReset</servlet-name>
         <url-pattern>/bclear</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelBooking</servlet-name>
+        <url-pattern>/cancel_booking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MapLocator</servlet-name>
+        <url-pattern>/maplocate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

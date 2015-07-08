@@ -132,7 +132,7 @@
                     </td>
                     <td><label>Other (Specify) </label></td>
                     <td><input type="text"  id="txt_return_location" name="tx_dropoff" id ="tx_dropoff" 
-                               placeholder="Return Location" required="true"/></td>
+                               placeholder="Return Location" required="false"/></td>
                 </tr>
                 <tr>
                     <td colspan="4"><button type="submit" name='book'>Book Now</button></td>

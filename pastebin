@@ -2,3 +2,12 @@ select distinct cars.vehicle_id, teaser_img,detail_img,make,model,registration_n
                 p_location,d_location,first_name,last_name,email_address,
                 phone from cars join vehicle_status join bookings join users on cars.vehicle_id=vehicle_status.vehicle_id
                 and cars.vehicle_id=bookings.vehicle_id and bookings.user_id=users.user_id order by dt_pickup desc;
+
+select distinct cars.vehicle_id, teaser_img,detail_img,make,model,registration_num,status,dt_pickup,dt_dropoff,"
+                + "p_location,d_location,first_name,last_name,email_address,booking_id,"
+                + "phone from cars join vehicle_status join bookings join users on cars.vehicle_id=vehicle_status.vehicle_id"
+                + " and cars.vehicle_id=bookings.vehicle_id and bookings.user_id=users.user_id order by dt_pickup desc;
+
+select distinct coord_long,coord_lat,make,model,_year,registration_num,cars.vehicle_id,first_name,last_name,email_address,phone,dt_pickup,dt_dropoff
+from vehicle_coords join cars join users join bookings 
+on cars.vehicle_id=vehicle_coords.vehicle_id and bookings.user_id=users.user_id and bookings.vehicle_id=vehicle_coords.vehicle_id;

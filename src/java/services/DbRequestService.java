@@ -9,6 +9,7 @@ import domain.Booking;
 import domain.BookingDetails;
 import domain.RateModel;
 import domain.TrackingDescription;
+import domain.VehicleMapping;
 import domain.User;
 import domain.Vehicle;
 import domain.VehicleDescription;
@@ -19,9 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -257,9 +256,9 @@ public class DbRequestService {
             results = statement.executeQuery(sql);
             while (results.next()) {
                 //create the objects based on the results...
-        Booking booking = new Booking();
-        Vehicle vehicle = new Vehicle();
-        User user = new User();
+                Booking booking = new Booking();
+                Vehicle vehicle = new Vehicle();
+                User user = new User();
                 //vehicle
                 vehicle.setTeaserImg(results.getString("teaser_img"));
                 vehicle.setTeaserImg(results.getString("detail_img"));
@@ -395,6 +394,7 @@ public class DbRequestService {
                 Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Adding to booking detail...");
 
                 //vehicle 
+                v.setVehicleId(results.getInt("vehicle_id"));
                 v.setMake(results.getString("make"));
                 v.setModel(results.getString("model"));
                 v.setTeaserImg(results.getString("teaser_img"));
@@ -507,15 +507,90 @@ public class DbRequestService {
     }
 
     public static int clearBooking(int bookingId, Connection conn) {
-        String clearSql = "delete from bookings where booking_id="+bookingId;
+        String clearSql = "delete from bookings where booking_id=" + bookingId;
         int state = 0;
         try {
             statement = conn.createStatement();
-            state=statement.executeUpdate(clearSql);
+            state = statement.executeUpdate(clearSql);
         } catch (SQLException ex) {
             Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Booking SQL delete error:", ex);
         }
         return state;
+    }
+
+    public static int cancelBooking(int userId, BookingDetails bkDetails, Connection connection) {
+        int removelStatus, updateStatus = 0;
+        int vehicleId = bkDetails.getVehicle().getVehicleId();
+        String removeBookingSql = "delete from bookings where user_id=" + userId;
+        String updateVehicleSql = "update vehicle_status set status=1 where vehicle_id=" + vehicleId;
+
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Booking sql: {0}", removeBookingSql);
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "update sql: {0}", updateVehicleSql);
+        try {
+            statement = connection.createStatement();
+            removelStatus = statement.executeUpdate(removeBookingSql);
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "deleted booking...{0}", removelStatus);
+            if (removelStatus > 0) {
+                updateStatus = statement.executeUpdate(updateVehicleSql);
+                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "updated vehicle status...{0}", updateStatus);
+            }
+        } catch (SQLException sqle) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, "Clear Booking SQl Error,{0}", sqle.getLocalizedMessage());
+        }
+
+        return updateStatus;
+    }
+
+    public static ArrayList getTrackMapDetails(Connection connection, String sqlStatement) {
+        ArrayList mappingDetails = new ArrayList();
+        User u; 
+        Vehicle v; 
+        Booking booking;
+        VehicleMapping vMap;
+        TrackingDescription td;
+        try {
+            statement = connection.createStatement();
+            results = statement.executeQuery(sqlStatement);
+            
+            while(results.next()){
+                // create a TrackingDetails object and add it to the arraylist
+                //vehicle details
+                int vId = results.getInt("vehicle_id");
+                String registration = results.getString("registration_num");
+                String make = results.getString("make");
+                String model = results.getString("model");
+                String year = results.getString("_year");
+                //user details
+                int userId = results.getInt("user_id");
+                String fName = results.getString("first_name");
+                String lName = results.getString("last_name");
+                String email = results.getString("email_address");
+                String phone = results.getString("phone");
+                //booking details
+                String pickup = results.getString("dt_pickup");
+                String dropoff = results.getString("dt_dropoff");
+                String pLocation = results.getString("p_location");
+                String dLocation = results.getString("d_location");
+                //coordinates 
+                double _long = results.getDouble("coord_long");
+                double lat = results.getDouble("coord_lat");
+                
+                v = new Vehicle(registration, make, model, year); v.setVehicleId(vId);
+                u = new User(fName, lName, email, phone);
+                booking = new Booking(userId, vId, pickup, dropoff, pLocation, dLocation);
+                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Pickup location: {0}",pLocation);
+                Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Dropoff  location: {0}",dLocation);
+                vMap = new VehicleMapping(_long, lat);
+                
+                //create tracking obj and add to array list
+                td = new TrackingDescription(v, booking, u, vMap);
+                mappingDetails.add(td);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DbRequestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Logger.getLogger(DbRequestService.class.getName()).log(Level.INFO, "Items in mapping track: {0}",mappingDetails.size());
+        return mappingDetails;
     }
 
 }

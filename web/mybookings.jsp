@@ -19,18 +19,17 @@
          <div class="header"></div>
         <%@include file="templates/navigation.jsp" %>
         <div id="confirmation-bg" style="padding-top: 10px;">
+            <div class="booking-img-pane">
+                <img src="fileserver?param1=${user_booking.vehicle.teaserImg}" width="300px" height="200px"/>
+            </div>
         <table class="booking">
             <tbody>
                 <tr>
                     <td><h3>Your Booking History</h3></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                 </tr>
                 <tr>
-                    <td><img src="fileserver?param1=${user_booking.vehicle.teaserImg}" width="300px" height="120px"/></td>
-                    <td colspan="4">
-                        Vehicle Type: ${user_booking.vehicle.make},  ${user_booking.vehicle.model}<br>
+                    <td>
+                        Vehicle Type: <strong>${user_booking.vehicle.make},  ${user_booking.vehicle.model}</strong><br>
                         Registration:   ${user_booking.vehicle.registrationNumber}<br>
                         Pickup Date: ${user_booking.booking.dtPickup}<br>
                         Return Date: ${user_booking.booking.dtDropoff}<br>
@@ -38,6 +37,8 @@
                 </tr>
             </tbody>
         </table>
+                    <div class="spacer"></div>
+                        <a href="cancel_booking" id="bk_cancel_btn">cancel booking</a>
         </div>
                 <%@include file="templates/footer.html" %>
     </body>

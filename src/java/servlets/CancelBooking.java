@@ -1,7 +1,7 @@
 /*
  * Copyright 2015
  *  http://wazza.co.ke
- * 7:51:38 AM  : Jun 19, 2015
+ * 10:07:36 AM  : Jul 4, 2015
  */
 package servlets;
 
@@ -20,41 +20,29 @@ import services.DbRequestService;
 /**
  *
  * @author kelli
+ * 
+ * ==========Member user cancels vehicle booking========
+ * 1. Get logged in user id
+ * 2. Get the vehicle details 
+ * 3. Create sql statement 
  */
-public class UserBooking extends HttpServlet {
+public class CancelBooking extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String path="";
 
-        /**
-         * Get the logged-in user details from db and the booking info.
-         */
-        Connection conn = (Connection) getServletContext().getAttribute("connector");
-
-        User user = (User) request.getSession().getAttribute("user");
+        BookingDetails booking;
+        User user;
+        //get database connection
+        Connection connection = (Connection)getServletContext().getAttribute("connector");
+        booking = (BookingDetails)request.getSession().getAttribute("user_booking");
+        user = (User)request.getSession().getAttribute("user");
         int userId = user.getUserId();
-        Logger.getLogger(UserBooking.class.getName()).log(Level.INFO, "user id ={0}",userId);
-        String bookingSql = "select registration_num, cars.vehicle_id,teaser_img, make,model, dt_pickup,dt_dropoff,p_location,"
-                + "d_location from bookings join cars where cars.vehicle_id = bookings.vehicle_id and user_id =" + userId;
-
-        Logger.getLogger(UserBooking.class.getName()).log(Level.INFO, "Booking Details SQL: {0}",bookingSql);
-        //Get the booking...
-        BookingDetails bookingDetails = DbRequestService.getUserBooking(conn, bookingSql);
-
-        if (bookingDetails != null) {
-            path="/mybookings.jsp";
-            request.getSession().setAttribute("user_booking", bookingDetails);
-            Logger.getLogger(UserBooking.class.getName()).log(Level.INFO, "Booking Time:{0}",bookingDetails.getBooking().getDtPickup());
-        } else {
-            path="/empty_result.jsp";
-            request.getSession().setAttribute("message", "No Booking Records Found in Your Account");
-            Logger.getLogger(UserBooking.class.getName()).log(Level.SEVERE, "Booking Details is empty");
+        int cancelled = DbRequestService.cancelBooking(userId,booking,connection);
+        if(cancelled>0){
+            request.setAttribute("message","Booking has been successfully cleared");
+            getServletContext().getRequestDispatcher("/empty_result.jsp").forward(request, response);
         }
-        getServletContext().getRequestDispatcher(path).forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
