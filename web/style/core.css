@@ -18,7 +18,9 @@ Copyright 2015
 body{
     margin-left: 200px;
     margin-right: 200px;
-    background-image: url(../resc/canvas.png);
+    background-image: url(../resc/bg-vector4.jpg);
+    background-repeat: no-repeat;
+    background-size: 1500px  500px;
 }
 
 /*    #background{
@@ -78,15 +80,16 @@ a#back_btn{
 
 .header{    
     position:relative;
-    margin-top: 4px;
+    margin-top: 0px;
     margin-bottom: 3px;
     padding: 20px 25px 3px 20px;
-    background-image: url(../resc/bluedots_banner-final.jpg);
-    /*background-repeat:no-repeat;*/
-    height:60px;
-    border:solid #66cc00 thin;
+    background-image: url(../resc/allexi-banner2.jpg);
+    background-size: 970px 100px;
+    background-repeat:no-repeat;
+    height:80px;
+/*    border:solid #66cc00 thin;
     border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-right-radius: 5px;*/
 }
 
 #footer{
@@ -360,6 +363,7 @@ input [type =checkbox] {
     float: right;
     padding: 5px;
     position: relative;
+    border:solid thin #666666;
 }
 
 .details-panel-description p{
@@ -720,9 +724,10 @@ table.panel  tr, td{
 .simplegallery{
     width:50%;
     height: 100%;
-    border:solid #003333 thin;
+    /*border:solid #003333 thin;*/
     padding: 10px;
     float: left;
+    background: #ffffff;
 }
 
 .simplegallery .content {

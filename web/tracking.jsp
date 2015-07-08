@@ -103,7 +103,7 @@
                 var longt = responseObj.vmap.longitude;
 
                 //create latlong coords from the retrived....
-                var latLng = new google.maps.LatLng(-1.256789, 36.8032929);
+                var latLng = new google.maps.LatLng(latt,longt);
                 //create new marker with the given coords
                 marker = new google.maps.Marker({
                     position: latLng,
